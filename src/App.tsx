@@ -1,6 +1,6 @@
 import "./App.css";
-import "bootstrap";
-import "@fortawesome/fontawesome-free";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-router-dom";
 
 function App() {
