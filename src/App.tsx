@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-router-dom";
 
 function App() {
-  return <></>;
+  return <>APP</>;
 }
 
 export default App;
