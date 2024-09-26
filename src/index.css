@@ -3,3 +3,9 @@
 body {
   font-family: "Outfit", sans-serif;
 }
+
+:root {
+  --primary-color: #07456f;
+  --secondary-color: #009f9d;
+  --text-color: #0f0a3c;
+}
