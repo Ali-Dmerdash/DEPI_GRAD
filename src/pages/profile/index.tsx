@@ -93,9 +93,6 @@ function Profile() {
             <Typography variant="body1" sx={{ fontWeight: "600" }}>
               Phone:
             </Typography>
-            <Typography variant="body1" sx={{ fontWeight: "600" }}>
-              Address:
-            </Typography>
           </Grid2>
 
           {/* Information Column */}
@@ -105,10 +102,6 @@ function Profile() {
             </Typography>
             <Typography variant="body1" sx={{ color: "var(--info-primary)" }}>
               (+20) 11-2345-6789
-            </Typography>
-            <Typography variant="body1" sx={{ color: "var(--info-secondary)" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus, maxime.
             </Typography>
           </Grid2>
         </Grid2>
