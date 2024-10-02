@@ -9,7 +9,6 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <>
       {/* Hamburger Button for Mobile */}
