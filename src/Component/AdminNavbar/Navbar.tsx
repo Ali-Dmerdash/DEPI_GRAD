@@ -8,7 +8,6 @@ const Navbar = () => {
       sx={{ bgcolor: 'white', boxShadow: 1, p: 1 }}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        
       
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <FontAwesomeIcon
