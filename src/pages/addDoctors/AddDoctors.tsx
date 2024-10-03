@@ -1,6 +1,7 @@
 import { FormControl, FormHelperText, Input, InputLabel } from "@mui/material";
 import React from "react";
 import "./AddDoctors.css";
+import { IoPersonCircleSharp } from "react-icons/io5";
 type Props = {};
 
 const AddDoctors = (props: Props) => {
@@ -8,6 +9,14 @@ const AddDoctors = (props: Props) => {
     <div className="grey-background">
       <form action="">
         <h3>Add Doctor</h3>
+        <div className="d-flex flex-row align-items-center">
+          <div>
+            <IoPersonCircleSharp style={{ fontSize: "7rem" }} />
+          </div>
+          <div className="mx-2">
+            <span>Upload Doctor Picture</span>
+          </div>
+        </div>
         <div className="row gx-5">
           <div className="col-xsm-12 col-lg-5">
             <div>
