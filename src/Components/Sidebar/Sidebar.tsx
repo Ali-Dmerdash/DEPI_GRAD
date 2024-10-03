@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { GoPerson } from "react-icons/go";
 import { IoHomeOutline, IoCalendarOutline } from "react-icons/io5";
-import "./Sidebar.css";
 import {
   Drawer,
   Button,
