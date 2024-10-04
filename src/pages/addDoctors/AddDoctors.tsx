@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  FormHelperText,
-  Grid2,
-  Input,
-  InputLabel,
-} from "@mui/material";
-import React from "react";
+import { Grid2 } from "@mui/material";
 import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
 type Props = {};
