@@ -1,11 +1,11 @@
-import { Grid2 } from "@mui/material";
+import { Container, Grid2 } from "@mui/material";
 import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
 type Props = {};
 
 const AddDoctors = (props: Props) => {
   return (
-    <div>
+    <Container>
       <form action="">
         <h3>Add Doctor</h3>
         <div>
@@ -65,7 +65,7 @@ const AddDoctors = (props: Props) => {
           </Grid2>
         </Grid2>
       </form>
-    </div>
+    </Container>
   );
 };
 
