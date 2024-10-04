@@ -1,4 +1,10 @@
-import { FormControl, FormHelperText, Input, InputLabel } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  Grid2,
+  Input,
+  InputLabel,
+} from "@mui/material";
 import React from "react";
 import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
@@ -6,22 +12,22 @@ type Props = {};
 
 const AddDoctors = (props: Props) => {
   return (
-    <div className="grey-background">
+    <div>
       <form action="">
         <h3>Add Doctor</h3>
-        <div className="d-flex flex-row align-items-center">
+        <div>
           <div>
             <IoPersonCircleSharp style={{ fontSize: "7rem" }} />
           </div>
-          <div className="mx-2">
+          <div>
             <span>Upload Doctor Picture</span>
           </div>
         </div>
-        <div className="row gx-5">
-          <div className="col-xsm-12 col-lg-5">
+        <Grid2 container spacing={5}>
+          <Grid2 size={7}>
             <div>
-              <label className="form-label">Doctor Name</label>
-              <input className="form-control" type="text" placeholder="Name" />
+              <label>Doctor Name</label>
+              <input type="text" placeholder="Name" />
             </div>
             <div>
               <label>Doctor Email</label>
@@ -39,8 +45,8 @@ const AddDoctors = (props: Props) => {
               <label>Fees</label>
               <input type="number" placeholder="Fees" />
             </div>
-          </div>
-          <div className="col-xsm-12 col-lg-6">
+          </Grid2>
+          <Grid2 size={5}>
             <div>
               <label>Specialty</label>
               <input type="text" placeholder="Specialty" />
@@ -52,7 +58,7 @@ const AddDoctors = (props: Props) => {
             <div>
               <label>Address</label>
               <input type="text" placeholder="Address 1" />
-              <input className="mt-3" type="text" placeholder="Address 2" />
+              <input type="text" placeholder="Address 2" />
             </div>
             <div
               style={{
@@ -61,10 +67,10 @@ const AddDoctors = (props: Props) => {
                 alignItems: "center",
               }}
             >
-              <button className="btn mt-3 ">Add Doctor</button>
+              <button style={{ width: "100%" }}>Add Doctor</button>
             </div>
-          </div>
-        </div>
+          </Grid2>
+        </Grid2>
       </form>
     </div>
   );
