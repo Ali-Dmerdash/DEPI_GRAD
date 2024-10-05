@@ -79,14 +79,24 @@ function AboutUs() {
             sx={{
               border: "0.5px ridge gray",
               "&:hover": {
-                backgroundColor: "#5f6fff",
-                "& .MuiTypography-root": {
-                  color: "white",
-                },
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "black",
               },
             }}
           >
-            <Typography variant="body1" color="initial" padding={7}>
+            <Typography
+              variant="body1"
+              color="initial"
+              padding={7}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "black",
+                  color: "white",
+                  borderColor: "black",
+                },
+              }}
+            >
               <span style={{ fontWeight: "bold" }}>EFFICIENCY:</span>
               <Typography
                 variant="body2"
@@ -96,62 +106,6 @@ function AboutUs() {
               >
                 Streamlined appointment scheduling that fits into your busy
                 lifestyle.
-              </Typography>
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={4}
-            mt={2}
-            sx={{
-              border: "0.5px ridge gray",
-              "&:hover": {
-                backgroundColor: "#5f6fff",
-                "& .MuiTypography-root": {
-                  color: "white",
-                },
-              },
-            }}
-          >
-            <Typography variant="body1" color="initial" padding={7}>
-              <span style={{ fontWeight: "bold" }}>CONVENIENCE:</span>
-              <Typography
-                variant="body2"
-                color="initial"
-                mt={2.5}
-                sx={{ fontWeight: "300" }}
-              >
-                Access to a network of trusted healthcare professionals in your
-                area.
-              </Typography>
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={4}
-            mt={2}
-            sx={{
-              border: "0.5px ridge gray",
-              "&:hover": {
-                backgroundColor: "#5f6fff",
-                "& .MuiTypography-root": {
-                  color: "white",
-                },
-              },
-            }}
-          >
-            <Typography variant="body1" color="initial" padding={7}>
-              <span style={{ fontWeight: "bold" }}>PERSONALIZATION:</span>
-              <Typography
-                variant="body2"
-                color="initial"
-                mt={2.5}
-                sx={{ fontWeight: "300" }}
-              >
-                Tailored recommendations and reminders to help you stay on top
-                of your health.
               </Typography>
             </Typography>
           </Grid>

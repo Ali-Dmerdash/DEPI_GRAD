@@ -150,8 +150,8 @@ function AboutUs() {
                 mt={2.5}
                 sx={{ fontWeight: "300" }}
               >
-                Tailored recommendations and reminders to help you stay on top
-                of your health.
+                Streamlined appointment scheduling that fits into your busy
+                lifestyle.
               </Typography>
             </Typography>
           </Grid>

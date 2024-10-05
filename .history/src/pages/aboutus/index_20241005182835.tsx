@@ -143,15 +143,15 @@ function AboutUs() {
             }}
           >
             <Typography variant="body1" color="initial" padding={7}>
-              <span style={{ fontWeight: "bold" }}>PERSONALIZATION:</span>
+              <span style={{ fontWeight: "bold" }}>EFFICIENCY:</span>
               <Typography
                 variant="body2"
                 color="initial"
                 mt={2.5}
                 sx={{ fontWeight: "300" }}
               >
-                Tailored recommendations and reminders to help you stay on top
-                of your health.
+                Streamlined appointment scheduling that fits into your busy
+                lifestyle.
               </Typography>
             </Typography>
           </Grid>
