@@ -1,5 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Grid, List, ListItem, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Grid2,
+  List,
+  ListItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -9,12 +17,12 @@ export default function Footer() {
       <Stack
         sx={{
           marginTop: "50px",
-          padding: "40px 0px",
-          borderBottom: "1px #ADADAD solid",
+          padding: "40px 10px",
+          borderBottom: "1px var(--border-color) solid",
         }}
       >
-        <Grid container>
-          <Grid item md={6}>
+        <Grid2 container rowSpacing={5}>
+          <Grid2 size={{ md: 6, xs: 12 }}>
             <Box>
               <Link
                 className="mainLogo"
@@ -47,9 +55,9 @@ export default function Footer() {
                 Voluptatibus quod necessitatibus voluptate assumenda ea.
               </Typography>
             </Box>
-          </Grid>
-          <Grid item md={2}></Grid>
-          <Grid item md={2}>
+          </Grid2>
+          <Grid2 size={{ md: 2, xs: 0 }}></Grid2>
+          <Grid2 size={{ md: 2, xs: 12 }}>
             <Box>
               <Typography variant="h6">COMPANY</Typography>
               <List
@@ -68,8 +76,8 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Box>
-          </Grid>
-          <Grid item md={2}>
+          </Grid2>
+          <Grid2 size={{ md: 2, xs: 12 }}>
             <Box>
               <Typography variant="h6">GET IN TOUCH</Typography>
               <List
@@ -81,17 +89,17 @@ export default function Footer() {
                 <ListItem>oasis@gmail.com</ListItem>
               </List>
             </Box>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Stack>
       <Box>
-        <Grid container>
-          <Grid item xs={12} sx={{ margin: "20px 0px" }}>
+        <Grid2 container>
+          <Grid2 size={{ xs: 12 }} sx={{ margin: "20px 0px" }}>
             <Typography sx={{ textAlign: "center" }}>
               Copyright © 2024 GreatStack - All Right Reserved.
             </Typography>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Box>
     </Stack>
   );

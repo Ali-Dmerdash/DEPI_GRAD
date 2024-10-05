@@ -1,34 +1,20 @@
 import { Box, Button, Container, List, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import "./navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import NavLinks from "./NavLinks/NavLinks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SegmentIcon from "@mui/icons-material/Segment";
 
 export default function Navbar() {
   let navLinks = [
-    { name: "HOME", path: "home", active: true },
-    { name: "ALLDOCTORS", path: "doctors", active: false },
-    { name: "ABOUT", path: "about", active: false },
-    { name: "CONTACT", path: "contact", active: false },
+    { name: "HOME", path: "/home" },
+    { name: "DOCTORS", path: "/doctors" },
+    { name: "ABOUT", path: "/about" },
+    { name: "CONTACT", path: "/contact" },
   ];
-
-  const [activeState, setActiveState] = useState("");
   let navigate = useNavigate();
 
-  function activeLink() {
-    navLinks.map((link) => {
-      if (link.path == activeState) {
-        link.active = true;
-      } else {
-        link.active = false;
-      }
-    });
-  }
-
-  useEffect(() => {
-    activeLink();
-  }, [activeState]);
+  const [activePath, setActivePath] = useState(null);
 
   return (
     <Stack>
@@ -40,11 +26,19 @@ export default function Navbar() {
           alignItems: "center",
           flexDirection: "row",
           padding: "10px",
-          borderBottom: "1px #ADADAD solid",
+          borderBottom: "1px var(--border-color) solid",
         }}
       >
         <Box>
-          <Link className="mainLogo" to="" style={{ textDecoration: "none" }}>
+          <Link
+            className="mainLogo"
+            to="home"
+            style={{
+              textDecoration: "none",
+              color: " var(--primary-color)",
+              fontSize: "45px",
+            }}
+          >
             <Typography
               sx={{
                 display: "flex",
@@ -62,7 +56,7 @@ export default function Navbar() {
             </Typography>
           </Link>
         </Box>
-        <Box>
+        <Box sx={{ display: { xs: "none", md: "flex" } }}>
           <List
             sx={{
               display: "flex",
@@ -70,11 +64,16 @@ export default function Navbar() {
             }}
           >
             {navLinks.map((link: object, i: number) => (
-              <NavLinks key={i} link={link} setActiveState={setActiveState} />
+              <NavLinks key={i} link={link} setActivePath={setActivePath} />
             ))}
           </List>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <Button
             sx={{
               borderRadius: "30px",
@@ -87,6 +86,15 @@ export default function Navbar() {
             }}
           >
             Create Account
+          </Button>
+          <Button
+            sx={{
+              fontSize: "30px",
+              fontWeight: "200",
+              display: { xs: "flex", md: "none" },
+            }}
+          >
+            <SegmentIcon sx={{ color: "var(--primary-color)" }} />
           </Button>
         </Box>
       </Container>

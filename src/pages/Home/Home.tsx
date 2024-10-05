@@ -1,15 +1,16 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Grid2, Stack, Typography } from "@mui/material";
 import React from "react";
 import HomeBg from "./Components/HomeBg/HomeBg";
-import general from "../../assets/img/specialities/General_physician.jpg";
-import gynecologist from "../../assets/img/specialities/Gynecologist.jpg";
-import dermatologist from "../../assets/img/specialities/Dermatologist.jpg";
-import pediatricians from "../../assets/img/specialities/Pediatricians.jpg";
-import neurologist from "../../assets/img/specialities/Neurologist.jpg";
-import gastroenterologist from "../../assets/img/specialities/Gastroenterologist.jpg";
+import general from "../../assets/img/specialities/General_physician.svg";
+import gynecologist from "../../assets/img/specialities/Gynecologist.svg";
+import dermatologist from "../../assets/img/specialities/Dermatologist.svg";
+import pediatricians from "../../assets/img/specialities/Pediatricians.svg";
+import neurologist from "../../assets/img/specialities/Neurologist.svg";
+import gastroenterologist from "../../assets/img/specialities/Gastroenterologist.svg";
 import Specialities from "./Components/Specialities/Specialities";
 import DoctorCardsDisplay from "../../components/DoctorsCardsDisplay/DoctorCardsDisplay";
 import BookingBg from "./Components/BookingBg/BookingBg";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   let specialities = [
@@ -20,6 +21,7 @@ export default function Home() {
     { name: "Neurologist", image: neurologist },
     { name: "Gastroenterologist", image: gastroenterologist },
   ];
+  let navigate = useNavigate();
 
   return (
     <Stack>
@@ -32,7 +34,7 @@ export default function Home() {
           Simply browse through our extensive list of trusted doctors, schedule
           your appointment hassle-free.
         </Typography>
-        <Grid
+        <Grid2
           container
           sx={{
             flexDirection: "row",
@@ -43,7 +45,7 @@ export default function Home() {
           {specialities.map((speciality, i) => (
             <Specialities key={i} speciality={speciality} />
           ))}
-        </Grid>
+        </Grid2>
       </Box>
       <Stack>
         <Box sx={{ margin: "20px auto", textAlign: "center" }}>
@@ -53,7 +55,7 @@ export default function Home() {
           </Typography>
         </Box>
         <Stack>
-          <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+          <Grid2 container spacing={2} sx={{ marginTop: "20px" }}>
             <DoctorCardsDisplay />
             <DoctorCardsDisplay />
             <DoctorCardsDisplay />
@@ -61,7 +63,7 @@ export default function Home() {
             <DoctorCardsDisplay />
             <DoctorCardsDisplay />
             <DoctorCardsDisplay />
-          </Grid>
+          </Grid2>
         </Stack>
         <Stack sx={{ justifyContent: "center" }}>
           <Button
@@ -71,6 +73,9 @@ export default function Home() {
               margin: "30px auto",
               padding: "10px 50px",
               color: "var(--text-color)",
+            }}
+            onClick={() => {
+              navigate("/doctors");
             }}
           >
             More

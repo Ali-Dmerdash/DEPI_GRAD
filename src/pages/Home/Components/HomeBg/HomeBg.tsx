@@ -1,26 +1,28 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Grid2, Typography } from "@mui/material";
 import React from "react";
-import groupProfiles from "../../../../assets/img/group_profiles.png";
-import homeImage from "../../../../assets/img/doc-header-img.png";
+import groupProfiles from "../../../../assets/img/group_profiles.svg";
+import homeImage from "../../../../assets/img/doc-header-img.svg";
 import { useNavigate } from "react-router-dom";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 export default function HomeBg() {
   let navigate = useNavigate();
 
   return (
-    <Grid
+    <Grid2
+      spacing={2}
       container
       sx={{
+        minHeight: "70vh",
+        padding: "30px",
         margin: "20px 0px",
         borderRadius: "10px",
-        padding: "10px 50px",
         color: "white",
         alignItems: "center",
-        minHeight: "70vh",
         backgroundColor: "var(--primary-color)",
       }}
     >
-      <Grid item xs={12} md={6}>
-        <Box>
+      <Grid2 size={{ xs: 12, md: 6 }}>
+        <Box sx={{ margin: "50px" }}>
           <Typography
             variant="h3"
             sx={{ fontWeight: "500", marginBottom: "15px" }}
@@ -42,20 +44,25 @@ export default function HomeBg() {
               padding: "15px 20px",
               borderRadius: "30px",
               color: "#595959",
+              transition: "0.3s",
+              "&:hover": {
+                scale: "1.1",
+              },
             }}
             onClick={() => {
               navigate("/doctors");
             }}
           >
             Book appointment
+            <ArrowForwardIcon />
           </Button>
         </Box>
-      </Grid>
-      <Grid item sm={6}>
-        <Box>
+      </Grid2>
+      <Grid2 size={{ sm: 6 }}>
+        <Box sx={{ width: "100%" }}>
           <img src={homeImage} alt="" style={{ width: "110%" }} />
         </Box>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 }
