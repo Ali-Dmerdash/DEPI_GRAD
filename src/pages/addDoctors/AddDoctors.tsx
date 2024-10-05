@@ -22,7 +22,7 @@ const AddDoctors = (props: Props) => {
           </Box>
           <Box>
             <Link href="#" underline="none" color="black">
-              <Typography>Upload Doctor Picture</Typography>
+              Upload Doctor Picture
             </Link>
           </Box>
         </Box>
@@ -33,7 +33,7 @@ const AddDoctors = (props: Props) => {
           container
           spacing={7}
         >
-          <Grid2 gap={3} size={7}>
+          <Grid2 size={{ lg: 7, sm: 12 }}>
             <Box sx={{ marginTop: "3px" }}>
               <Typography component="label">Doctor Name</Typography>
               <TextField
@@ -90,7 +90,7 @@ const AddDoctors = (props: Props) => {
               />
             </Box>
           </Grid2>
-          <Grid2 size={5}>
+          <Grid2 size={{ lg: 5, sm: 12 }}>
             <Box>
               <Typography component="label">Specialty</Typography>
               <TextField

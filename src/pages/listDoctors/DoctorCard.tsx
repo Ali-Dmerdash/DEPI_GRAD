@@ -1,5 +1,4 @@
 import { Box, Card, Container, Grid2 } from "@mui/material";
-import React from "react";
 import { GoDotFill } from "react-icons/go";
 
 type Props = {
