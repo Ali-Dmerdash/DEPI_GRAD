@@ -66,7 +66,11 @@ function ContactUs () {
                   mt: 2,
                   padding: "12px",
                   border: "2px solid black",
-                  borderRadius: "0px",
+                  borderRadius: "0px", "&:hover": {
+                    backgroundColor: "black",
+                    color: "white",
+                    borderColor: "black",
+                  },
                 }}
               >
                 Explore Jobs
