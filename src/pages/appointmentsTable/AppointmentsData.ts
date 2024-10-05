@@ -1,0 +1,133 @@
+type Appointment = {
+  isMalePatient: boolean;
+  isMaleDoctor: boolean;
+  patientName: string;
+  department: string;
+  age: number;
+  date: string;
+  doctorName: string;
+  fees: number;
+};
+
+export const AppointmentsData: Appointment[] = [
+  {
+    isMalePatient: true,
+    isMaleDoctor: false,
+    patientName: "Mohamed Qushta",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Jessica Mohamed",
+    fees: 50,
+  },
+  {
+    isMalePatient: false,
+    isMaleDoctor: true,
+    patientName: "Jessica Mohamed",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Mohamed Qushta",
+    fees: 50,
+  },
+  {
+    isMalePatient: true,
+    isMaleDoctor: false,
+    patientName: "Mohamed Qushta",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Jessica Mohamed",
+    fees: 50,
+  },
+  {
+    isMalePatient: false,
+    isMaleDoctor: true,
+    patientName: "Jessica Mohamed",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Mohamed Qushta",
+    fees: 50,
+  },
+  {
+    isMalePatient: true,
+    isMaleDoctor: false,
+    patientName: "Mohamed Qushta",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Jessica Mohamed",
+    fees: 50,
+  },
+  {
+    isMalePatient: false,
+    isMaleDoctor: true,
+    patientName: "Jessica Mohamed",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Mohamed Qushta",
+    fees: 50,
+  },
+  {
+    isMalePatient: true,
+    isMaleDoctor: false,
+    patientName: "Mohamed Qushta",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Jessica Mohamed",
+    fees: 50,
+  },
+  {
+    isMalePatient: false,
+    isMaleDoctor: true,
+    patientName: "Jessica Mohamed",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Mohamed Qushta",
+    fees: 50,
+  },
+  {
+    isMalePatient: true,
+    isMaleDoctor: false,
+    patientName: "Mohamed Qushta",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Jessica Mohamed",
+    fees: 50,
+  },
+  {
+    isMalePatient: false,
+    isMaleDoctor: true,
+    patientName: "Jessica Mohamed",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Mohamed Qushta",
+    fees: 50,
+  },
+  {
+    isMalePatient: true,
+    isMaleDoctor: false,
+    patientName: "Mohamed Qushta",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Jessica Mohamed",
+    fees: 50,
+  },
+  {
+    isMalePatient: false,
+    isMaleDoctor: true,
+    patientName: "Jessica Mohamed",
+    department: "Cardiology",
+    age: 33,
+    date: "26 October 2024",
+    doctorName: "Dr. Mohamed Qushta",
+    fees: 50,
+  },
+];

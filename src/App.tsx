@@ -7,14 +7,38 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
 
+import Navbar from "./components/Navbar/Navbar";
+import { Container } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
+import DoctorsTest from "./pages/Doctors/DoctorsTest";
+import AboutTest from "./pages/About/AboutTest";
+import ContactTest from "./pages/Contact/ContactTest";
+import RegisterTest from "./pages/Register/RegisterTest";
+import Home from "./pages/Home/Home";
+import Appointment from "./components/Appointment/Appointment";
+import Footer from "./components/Footer/Footer";
+import AddDoctors from "./pages/addDoctors/AddDoctors";
+import ListDoctors from "./pages/listDoctors/ListDoctors";
+import { Box, Container } from "@mui/material";
+import AppointmentsTable from "./pages/appointmentsTable/AppointmentsTable";
+        
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<Login />} />
-      </Routes>
+      <Navbar />
+      <Container maxWidth={"lg"}>
+        <Routes>
+          <Route path="*" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/doctors" element={<DoctorsTest />} />
+          <Route path="/about" element={<AboutTest />} />
+          <Route path="/contact" element={<ContactTest />} />
+          <Route path="/appointment" element={<Appointment />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Container>
+      <Footer />
     </>
   );
 }
