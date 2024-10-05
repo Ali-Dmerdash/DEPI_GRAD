@@ -1,4 +1,12 @@
-import { Container, Grid2 } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid2,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
 type Props = {};
@@ -6,65 +14,142 @@ type Props = {};
 const AddDoctors = (props: Props) => {
   return (
     <Container>
-      <form action="">
-        <h3>Add Doctor</h3>
-        <div>
-          <div>
+      <Box component="form">
+        <Typography variant="h5">Add Doctor</Typography>
+        <Box>
+          <Box>
             <IoPersonCircleSharp style={{ fontSize: "7rem" }} />
-          </div>
-          <div>
-            <span>Upload Doctor Picture</span>
-          </div>
-        </div>
-        <Grid2 container spacing={5}>
-          <Grid2 size={7}>
-            <div>
-              <label>Doctor Name</label>
-              <input type="text" placeholder="Name" />
-            </div>
-            <div>
-              <label>Doctor Email</label>
-              <input type="text" placeholder="Email" />
-            </div>
-            <div>
-              <label>Doctor Password</label>
-              <input type="password" placeholder="Password" />
-            </div>
-            <div>
-              <label>Experience (in years)</label>
-              <input type="number" placeholder="Number of years" />
-            </div>
-            <div>
-              <label>Fees</label>
-              <input type="number" placeholder="Fees" />
-            </div>
+          </Box>
+          <Box>
+            <Link href="#" underline="none" color="black">
+              <Typography>Upload Doctor Picture</Typography>
+            </Link>
+          </Box>
+        </Box>
+        <Grid2
+          sx={{
+            marginTop: "10px",
+          }}
+          container
+          spacing={7}
+        >
+          <Grid2 gap={3} size={7}>
+            <Box sx={{ marginTop: "3px" }}>
+              <Typography component="label">Doctor Name</Typography>
+              <TextField
+                sx={{
+                  marginTop: "10px",
+                  width: "100%",
+                }}
+                type="text"
+                placeholder="Name"
+              />
+            </Box>
+            <Box sx={{ marginTop: "3px" }}>
+              <Typography component="label">Doctor Email</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="Email"
+              />
+            </Box>
+            <Box sx={{ marginTop: "3px" }}>
+              <Typography component="label">Doctor Password</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="Password"
+              />
+            </Box>
+            <Box sx={{ marginTop: "3px" }}>
+              <Typography component="label">Experience (in years)</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="number"
+                placeholder="Number of years"
+              />
+            </Box>
+            <Box sx={{ marginTop: "3px" }}>
+              <Typography component="label">Fees</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="number"
+                placeholder="Fees"
+              />
+            </Box>
           </Grid2>
           <Grid2 size={5}>
-            <div>
-              <label>Specialty</label>
-              <input type="text" placeholder="Specialty" />
-            </div>
-            <div>
-              <label>Education</label>
-              <input type="text" placeholder="Education" />
-            </div>
-            <div>
-              <label>Address</label>
-              <input type="text" placeholder="Address 1" />
-              <input type="text" placeholder="Address 2" />
-            </div>
-            <div
-              style={{
+            <Box>
+              <Typography component="label">Specialty</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="Specialty"
+              />
+            </Box>
+            <Box sx={{ marginTop: "10px" }}>
+              <Typography component="label">Education</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="Education"
+              />
+            </Box>
+            <Box sx={{ marginTop: "10px" }}>
+              <Typography component="label">Address</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="Address 1"
+              />
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="Address 2"
+              />
+            </Box>
+            <Box
+              sx={{
+                marginTop: "20px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <button style={{ width: "100%" }}>Add Doctor</button>
-            </div>
+              <Button
+                variant="contained"
+                sx={{ width: "100%", borderRadius: "20px" }}
+              >
+                Add Doctor
+              </Button>
+            </Box>
           </Grid2>
         </Grid2>
-      </form>
+      </Box>
     </Container>
   );
 };

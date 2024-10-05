@@ -6,12 +6,15 @@ import { DoctorsData } from "./DoctorsData";
 
 const ListDoctors = () => {
   return (
-    <Box
+    <Grid2
+      paddingX={10}
+      container
+      spacing={3}
       sx={{
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
-        gap: "20px",
+        // gap: "20px",
       }}
     >
       {DoctorsData.map((doctor) => (
@@ -22,7 +25,7 @@ const ListDoctors = () => {
           imageUrl={doctor.imageUrl}
         />
       ))}
-    </Box>
+    </Grid2>
   );
 };
 

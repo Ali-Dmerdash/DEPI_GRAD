@@ -13,12 +13,9 @@ function App() {
     <>
       {/* <Navbar />
       <Sidebar /> */}
-      {/* <AddDoctors /> */}
-      <Box
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        <ListDoctors />
-      </Box>
+      <AddDoctors />
+
+      {/* <ListDoctors /> */}
     </>
   );
 }
