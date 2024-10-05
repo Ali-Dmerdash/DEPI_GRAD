@@ -3,10 +3,10 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
+import Profile from "./pages/profile";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
-
 import Navbar from "./components/Navbar/Navbar";
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
