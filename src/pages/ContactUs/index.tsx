@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Grid, Typography, Box, Button } from "@mui/material";
 
-const ContactUs = () => {
+function ContactUs () {
   return (
     <>
       <Container maxWidth="md" style={{ padding: "2rem 1rem" }}>
