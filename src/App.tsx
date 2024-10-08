@@ -6,22 +6,20 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import Profile from "./pages/profile";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
-import Register from "./pages/register";
-import Navbar from "./components/Navbar/Navbar";
-import { Container } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
-import DoctorsTest from "./pages/Doctors/DoctorsTest";
-import AboutTest from "./pages/About/AboutTest";
-import ContactTest from "./pages/Contact/ContactTest";
 import RegisterTest from "./pages/Register/RegisterTest";
 import Home from "./pages/Home/Home";
-import Appointment from "./components/Appointment/Appointment";
-import Footer from "./components/Footer/Footer";
 import AddDoctors from "./pages/addDoctors/AddDoctors";
 import ListDoctors from "./pages/listDoctors/ListDoctors";
 import { Box, Container } from "@mui/material";
 import AppointmentsTable from "./pages/appointmentsTable/AppointmentsTable";
-        
+import Footer from "./Components/Footer/Footer";
+import Navbar from "./Components/Navbar/Navbar";
+import Appointment from "./Components/Appointment/Appointment";
+import Register from "./pages/Register";
+import AboutUs from "./pages/aboutus";
+import ContactUs from "./pages/ContactUs";
+import Doctors from "./pages/Doctors";
+
 function App() {
   return (
     <>
@@ -30,9 +28,9 @@ function App() {
         <Routes>
           <Route path="*" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/doctors" element={<DoctorsTest />} />
-          <Route path="/about" element={<AboutTest />} />
-          <Route path="/contact" element={<ContactTest />} />
+          <Route path="/doctors" element={<Doctors />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
