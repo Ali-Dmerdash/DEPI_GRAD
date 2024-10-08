@@ -14,7 +14,7 @@ import { Box, Container } from "@mui/material";
 import AppointmentsTable from "./pages/appointmentsTable/AppointmentsTable";
 import Footer from "./Components/Footer/Footer";
 import Navbar from "./Components/Navbar/Navbar";
-import Appointment from "./Components/Appointment/Appointment";
+import Appointment from "./Components/Appointment";
 import Register from "./pages/Register";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/ContactUs";
