@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
+import Footer from "../../Components/Footer/Footer";
+import Navbar from "../../Components/Navbar/Navbar";
 
 const MyAppointment: React.FC = () => {
   return (
     <>
+      <Navbar />
       <Box sx={{ maxWidth: 1100, margin: "0 auto", maxHeight: "320px" }}>
         <Typography variant="body1" color="initial">
           My Appointments
@@ -187,6 +190,7 @@ const MyAppointment: React.FC = () => {
           </CardContent>
         </Card>
       </Box>
+      <Footer />
     </>
   );
 };

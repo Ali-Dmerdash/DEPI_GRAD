@@ -8,9 +8,12 @@ import {
   Container,
 } from "@mui/material";
 import aboutUsImage from "../../assets/about_image.png";
+import Footer from "../../Components/Footer/Footer";
+import Navbar from "../../Components/Navbar/Navbar";
 function AboutUs() {
   return (
     <>
+      <Navbar />
       <Container maxWidth="xl">
         <Typography
           variant="h5"
@@ -157,6 +160,7 @@ function AboutUs() {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </>
   );
 }

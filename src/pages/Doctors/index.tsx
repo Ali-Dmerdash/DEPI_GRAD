@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 
 import DoctorImage from "../../assets/doctor1.png";
+import Footer from "../../Components/Footer/Footer";
+import Navbar from "../../Components/Navbar/Navbar";
 
 interface Doctor {
   id: number;
@@ -169,88 +171,92 @@ const Doctors: React.FC = () => {
     : doctors;
 
   return (
-    <Container maxWidth="lg">
-      <Grid item xs={12} md={12} mb={3}>
-        Browse through the doctors specialist.
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={2}>
-          <Box
-            sx={{
-              padding: 2,
-              marginBottom: 2,
-              width: "90%",
-            }}
-          >
-            {specializations.map((specialization) => (
-              <Button
-                key={specialization}
-                onClick={() => handleSpecializationClick(specialization)}
-                variant={
-                  selectedSpecialization === specialization
-                    ? "contained"
-                    : "outlined"
-                }
-                fullWidth
-                sx={{
-                  color: "black",
-                  borderColor: "gray",
-                  marginBottom: 2,
-                  justifyContent: "flex-start",
-                  textTransform: "none",
-                }}
-              >
-                {specialization}
-              </Button>
-            ))}
-          </Box>
+    <>
+      <Navbar />
+      <Container maxWidth="lg">
+        <Grid item xs={12} md={12} mb={3}>
+          Browse through the doctors specialist.
         </Grid>
-
-        <Grid item xs={12} md={10}>
-          <Grid container spacing={2}>
-            {filteredDoctors.map((doctor) => (
-              <Grid item xs={12} md={3} key={doctor.id}>
-                <Card
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={2}>
+            <Box
+              sx={{
+                padding: 2,
+                marginBottom: 2,
+                width: "90%",
+              }}
+            >
+              {specializations.map((specialization) => (
+                <Button
+                  key={specialization}
+                  onClick={() => handleSpecializationClick(specialization)}
+                  variant={
+                    selectedSpecialization === specialization
+                      ? "contained"
+                      : "outlined"
+                  }
+                  fullWidth
                   sx={{
-                    transition: "transform 0.2s",
-                    "&:hover": {
-                      transform: "scale(1.05)",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
-                    },
+                    color: "black",
+                    borderColor: "gray",
+                    marginBottom: 2,
+                    justifyContent: "flex-start",
+                    textTransform: "none",
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    image={doctor.image}
-                    alt={doctor.name}
+                  {specialization}
+                </Button>
+              ))}
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={10}>
+            <Grid container spacing={2}>
+              {filteredDoctors.map((doctor) => (
+                <Grid item xs={12} md={3} key={doctor.id}>
+                  <Card
                     sx={{
-                      width: "100%",
-                      height: "220px",
-                      objectFit: "scale-down",
-                      borderRadius: "5px",
-                      backgroundColor: "#eaefff",
+                      transition: "transform 0.2s",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+                      },
                     }}
-                  />
-                  <CardContent>
-                    {doctor.available && (
-                      <Typography color="green" align="center">
-                        &bull; Available
+                  >
+                    <CardMedia
+                      component="img"
+                      image={doctor.image}
+                      alt={doctor.name}
+                      sx={{
+                        width: "100%",
+                        height: "220px",
+                        objectFit: "scale-down",
+                        borderRadius: "5px",
+                        backgroundColor: "#eaefff",
+                      }}
+                    />
+                    <CardContent>
+                      {doctor.available && (
+                        <Typography color="green" align="center">
+                          &bull; Available
+                        </Typography>
+                      )}
+                      <Typography variant="h6" align="center" sx={{ mt: 2 }}>
+                        {doctor.name}
                       </Typography>
-                    )}
-                    <Typography variant="h6" align="center" sx={{ mt: 2 }}>
-                      {doctor.name}
-                    </Typography>
-                    <Typography variant="body2" align="center" sx={{ mb: 1 }}>
-                      {doctor.specialization}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
+                      <Typography variant="body2" align="center" sx={{ mb: 1 }}>
+                        {doctor.specialization}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+      <Footer />
+    </>
   );
 };
 

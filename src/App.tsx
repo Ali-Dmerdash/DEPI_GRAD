@@ -6,7 +6,6 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import Profile from "./pages/profile";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
-import RegisterTest from "./pages/Register/RegisterTest";
 import Home from "./pages/Home/Home";
 import AddDoctors from "./pages/addDoctors/AddDoctors";
 import ListDoctors from "./pages/listDoctors/ListDoctors";
@@ -23,7 +22,6 @@ import Doctors from "./pages/Doctors";
 function App() {
   return (
     <>
-      <Navbar />
       <Container maxWidth={"lg"}>
         <Routes>
           <Route path="*" element={<Home />} />
@@ -36,7 +34,6 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       </Container>
-      <Footer />
     </>
   );
 }

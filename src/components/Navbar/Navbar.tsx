@@ -69,6 +69,19 @@ export default function Navbar() {
               <NavLinks key={i} link={link} setActivePath={setActivePath} />
             ))}
           </List>
+          <Button
+            sx={{
+              border: "1px var(--border-color) solid",
+              borderRadius: "30px",
+              color: "var(--primary--color)",
+              fontSize: "10px",
+            }}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Admin Dashboard
+          </Button>
         </Box>
         <Box
           sx={{

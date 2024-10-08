@@ -1,9 +1,12 @@
 import React from "react";
 import { Container, Grid, Typography, Box, Button } from "@mui/material";
+import Footer from "../../Components/Footer/Footer";
+import Navbar from "../../Components/Navbar/Navbar";
 
 function ContactUs() {
   return (
     <>
+      <Navbar />
       <Container maxWidth="md" style={{ padding: "2rem 1rem" }}>
         <Typography
           variant="h5"
@@ -79,6 +82,7 @@ function ContactUs() {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </>
   );
 }

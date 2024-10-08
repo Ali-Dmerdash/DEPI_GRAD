@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./login.css";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import Navbar from "../../Components/Navbar/Navbar";
 
 function Login() {
   const handleSubmit = (e: any) => {
@@ -10,6 +11,7 @@ function Login() {
 
   return (
     <>
+      <Navbar />
       <Container component="main" maxWidth="sm">
         <Box
           sx={{
