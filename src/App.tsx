@@ -20,8 +20,8 @@ import Dashboard from "./Components/AdminDashboard/Dashboard";
 import AddDoctors from "./pages/addDoctor";
 import Appointments from "./Components/AdminAppointment";
 import ListDoctors from "./pages/listDoctors/index.";
-import UserLayout from "./layouts/userlayout";
 import AdminLayout from "./layouts/adminlayout";
+import UserLayout from "./layouts/userlayout";
 
 function App() {
   return (
@@ -29,114 +29,29 @@ function App() {
       <Container maxWidth={"lg"}>
         <Routes>
           <Route path="*" element={<Error />} />
-          <Route path="/" element={<Navigate to="/home" />} />
 
-          <Route
-            path="/home"
-            element={
-              <UserLayout>
-                <Home />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/doctors"
-            element={
-              <UserLayout>
-                <Doctors />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <UserLayout>
-                <AboutUs />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <UserLayout>
-                <ContactUs />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/appointment"
-            element={
-              <UserLayout>
-                <Appointment />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/userappointment"
-            element={
-              <UserLayout>
-                <MyAppointment />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <UserLayout>
-                <Profile />
-              </UserLayout>
-            }
-          />
+          <Route path="/" element={<UserLayout />}>
+            <Route index element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/doctors" element={<Doctors />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/appointment" element={<Appointment />} />
+            <Route path="/userappointment" element={<MyAppointment />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
-          <Route
-            path="/dashboard"
-            element={
-              <AdminLayout>
-                <Dashboard />
-              </AdminLayout>
-            }
-          />
-          <Route
-            path="/dashboard/add-doctor"
-            element={
-              <AdminLayout>
-                <AddDoctors />
-              </AdminLayout>
-            }
-          />
-          <Route
-            path="/dashboard/all-appointments"
-            element={
-              <AdminLayout>
-                <Appointments />
-              </AdminLayout>
-            }
-          />
-          <Route
-            path="/dashboard/all-doctors"
-            element={
-              <AdminLayout>
-                <ListDoctors />
-              </AdminLayout>
-            }
-          />
-
-          <Route
-            path="/login"
-            element={
-              <UserLayout>
-                <Login />
-              </UserLayout>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <UserLayout>
-                <Register />
-              </UserLayout>
-            }
-          />
+          <Route path="/dashboard" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="/dashboard/add-doctor" element={<AddDoctors />} />
+            <Route
+              path="/dashboard/all-appointments"
+              element={<Appointments />}
+            />
+            <Route path="/dashboard/all-doctors" element={<ListDoctors />} />
+          </Route>
         </Routes>
       </Container>
     </>

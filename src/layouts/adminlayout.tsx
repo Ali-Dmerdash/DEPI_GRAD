@@ -2,12 +2,9 @@ import React from "react";
 import AdminNavbar from "../Components/AdminNavbar/AdminNavbar";
 import Sidebar from "../Components/Sidebar/Sidebar";
 import { Box, Grid2 } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
-interface AdminLayoutProps {
-  children: React.ReactNode;
-}
-
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const AdminLayout = () => {
   return (
     <>
       <AdminNavbar />
@@ -17,7 +14,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </Grid2>
         <Grid2 size={10}>
           <Box sx={{ mt: "100px" }} component="main">
-            {children}
+            <Outlet />
           </Box>
         </Grid2>
       </Grid2>
