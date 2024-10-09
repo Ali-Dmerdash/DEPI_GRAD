@@ -25,7 +25,7 @@ const AdminNavbar = () => {
           </Typography>
         </Box>
 
-        <Button
+        {/* <Button
           variant="contained"
           sx={{
             bgcolor: "#07456F",
@@ -41,7 +41,7 @@ const AdminNavbar = () => {
           }}
         >
           Log Out
-        </Button>
+        </Button> */}
       </Toolbar>
     </AppBar>
   );

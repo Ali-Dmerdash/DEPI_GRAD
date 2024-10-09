@@ -81,8 +81,9 @@ const Sidebar = () => {
         sx={{
           display: { xs: "none", md: "block" },
           width: "250px",
-          bgcolor: "#1F2937", // Tailwind's gray-800 equivalent
-          color: "white",
+          bgcolor: "white",
+          boxShadow: 1, // Tailwind's gray-800 equivalent
+          color: "#515151",
           height: "calc(100vh - 64px)", // Adjust for Navbar height (assuming 64px height for Navbar)
           position: "fixed",
           top: "73px", // Adjusted to start after Navbar

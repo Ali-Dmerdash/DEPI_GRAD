@@ -26,7 +26,7 @@ const DoctorCard = ({ status, name, specialty, imageUrl }: Props) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            bgcolor: "#41a667",
+            bgcolor: "#ACE6F6",
           }}
         >
           <Box
