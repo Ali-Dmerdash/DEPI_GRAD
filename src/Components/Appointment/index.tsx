@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import AppointmentDays from "./AppointmentDays/AppointmentDays";
 import AppointmentHour from "./AppointmentHour/AppointmentHour";
 import DoctorDetails from "./DoctorDetails/DoctorDetails";
-import Footer from "../Footer/Footer";
-import Navbar from "../Navbar/Navbar";
 
 export default function Appointment() {
   let schedules = [
@@ -63,7 +61,6 @@ export default function Appointment() {
 
   return (
     <>
-      <Navbar />
       <Box sx={{ marginTop: "30px", minHeight: "100vh" }}>
         <Stack>
           <DoctorDetails />
@@ -122,7 +119,6 @@ export default function Appointment() {
           </Grid2>
         </Stack>
       </Box>
-      <Footer />
     </>
   );
 }

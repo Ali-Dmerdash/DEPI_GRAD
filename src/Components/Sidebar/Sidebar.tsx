@@ -60,16 +60,16 @@ const Sidebar = () => {
             </h2>
           }
           <List>
-            <ListItemButton component={Link} to="/">
+            <ListItemButton component={Link} to="/dashboard">
               <ListItemText primary="Dashboard" />
             </ListItemButton>
-            <ListItemButton component={Link} to="/appointments">
+            <ListItemButton component={Link} to="/dashboard/all-appointments">
               <ListItemText primary="Appointments" />
             </ListItemButton>
-            <ListItemButton component={Link} to="/doctors">
+            <ListItemButton component={Link} to="/dashboard/all-doctors">
               <ListItemText primary="Doctors" />
             </ListItemButton>
-            <ListItemButton component={Link} to="/add-doctor">
+            <ListItemButton component={Link} to="/dashboard/add-doctor">
               <ListItemText primary="Add Doctor" />
             </ListItemButton>
           </List>
@@ -100,25 +100,25 @@ const Sidebar = () => {
           Admin Dashboard
         </h2> */}
         <List>
-          <ListItemButton component={Link} to="/">
+          <ListItemButton component={Link} to="/dashboard">
             <Box mr={0.5}>
               <IoHomeOutline />
             </Box>
             <ListItemText primary="Dashboard" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/appointments">
+          <ListItemButton component={Link} to="/dashboard/all-appointments">
             <Box mr={0.5}>
               <IoCalendarOutline />
             </Box>
             <ListItemText primary="Appointments" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/doctors">
+          <ListItemButton component={Link} to="/dashboard/all-doctors">
             <Box mr={0.5}>
               <GoPerson />
             </Box>
             <ListItemText primary="Doctors" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/add-doctor">
+          <ListItemButton component={Link} to="/dashboard/add-doctor">
             <Box mr={0.5}>
               <IoMdAdd />
             </Box>

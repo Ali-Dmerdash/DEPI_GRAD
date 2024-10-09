@@ -11,7 +11,7 @@ import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
 type Props = {};
 
-const AddDoctors = (props: Props) => {
+const AddDoctor = (props: Props) => {
   return (
     <Container>
       <Box component="form">
@@ -154,4 +154,4 @@ const AddDoctors = (props: Props) => {
   );
 };
 
-export default AddDoctors;
+export default AddDoctor;

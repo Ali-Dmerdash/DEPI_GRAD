@@ -11,8 +11,6 @@ import Specialities from "./Components/Specialities/Specialities";
 import DoctorCardsDisplay from "../../Components/DoctorsCardsDisplay/DoctorCardsDisplay";
 import BookingBg from "./Components/BookingBg/BookingBg";
 import { useNavigate } from "react-router-dom";
-import Footer from "../../Components/Footer/Footer";
-import Navbar from "../../Components/Navbar/Navbar";
 
 export default function Home() {
   let specialities = [
@@ -27,7 +25,6 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
       <Stack>
         <HomeBg />
         <Box sx={{ margin: "40px auto", textAlign: "center" }}>
@@ -91,7 +88,6 @@ export default function Home() {
           <BookingBg />
         </Stack>
       </Stack>
-      <Footer />
     </>
   );
 }

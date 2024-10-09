@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 
 import DoctorImage from "../../assets/doctor1.png";
-import Footer from "../../Components/Footer/Footer";
-import Navbar from "../../Components/Navbar/Navbar";
 
 interface Doctor {
   id: number;
@@ -172,7 +170,6 @@ const Doctors: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Grid2 size={{ xs: 12, md: 8 }} mb={3}>
           Browse through the doctors specialist.
@@ -255,7 +252,6 @@ const Doctors: React.FC = () => {
           </Grid2>
         </Grid2>
       </Container>
-      <Footer />
     </>
   );
 };

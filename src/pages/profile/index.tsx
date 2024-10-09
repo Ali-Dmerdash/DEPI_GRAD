@@ -2,8 +2,6 @@ import React from "react";
 import "./profile.css";
 import { Grid2, Typography, Button, Avatar, Box, Divider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Footer from "../../Components/Footer/Footer";
-import Navbar from "../../Components/Navbar/Navbar";
 
 function Profile() {
   function ButtonProfile(props: any) {
@@ -24,7 +22,6 @@ function Profile() {
 
   return (
     <>
-      <Navbar />
       <Grid2
         container
         sx={{
@@ -159,7 +156,6 @@ function Profile() {
           <ButtonProfile>Save information</ButtonProfile>
         </Box>
       </Grid2>
-      <Footer />
     </>
   );
 }

@@ -1,6 +1,5 @@
 import { Container, Box, Typography, TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import Navbar from "../../Components/Navbar/Navbar";
 
 function Register() {
   const handleSubmit = (e: any) => {
@@ -10,7 +9,6 @@ function Register() {
 
   return (
     <>
-      <Navbar />
       <Container component="main" maxWidth="sm">
         <Box
           sx={{

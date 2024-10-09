@@ -1,4 +1,4 @@
-import { Box, Grid, Grid2, Typography } from "@mui/material";
+import { Box, Grid2, Typography } from "@mui/material";
 import React from "react";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import InfoIcon from "@mui/icons-material/Info";
