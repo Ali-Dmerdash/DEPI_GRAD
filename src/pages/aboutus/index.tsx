@@ -38,31 +38,31 @@ function AboutUs() {
               />
             </Box>
           </Grid2>
-          <Grid2 size={{ xs: 12, md: 8 }} sx={{ marginTop: "70px" }}>
+          <Grid2 size={{ xs: 12, md: 8 }}>
             <Typography
               variant="body1"
               gutterBottom
               sx={{ display: "block", mb: 3, fontWeight: "300" }}
             >
-              Welcome to Prescripto, your trusted partner in managing your
-              healthcare needs conveniently and efficiently. At Prescripto, we
-              understand the challenges individuals face when it comes to
-              scheduling doctor appointments and managing their health records.{" "}
+              Welcome to Oasis, your trusted partner in managing your healthcare
+              needs conveniently and efficiently. At Oasis, we understand the
+              challenges individuals face when it comes to scheduling doctor
+              appointments and managing their health records.{" "}
             </Typography>
             <Typography variant="body1">
               <Typography sx={{ display: "block", mb: 3, fontWeight: "300" }}>
-                Prescripto is committed to excellence in healthcare technology.
-                We continuously strive to enhance our platform, integrating the
+                Oasis is committed to excellence in healthcare technology. We
+                continuously strive to enhance our platform, integrating the
                 latest advancements to improve user experience and deliver
                 superior service. Whether you're booking your first appointment
-                or managing ongoing care, Prescripto is here to support you
-                every step of the way.
+                or managing ongoing care, Oasis is here to support you every
+                step of the way.
               </Typography>
               <Typography sx={{ display: "block", mb: 3, fontWeight: "bold" }}>
                 Our Vision
               </Typography>
               <Typography sx={{ display: "block", mb: 3, fontWeight: "300" }}>
-                Our vision at Prescripto is to create a seamless healthcare
+                Our vision at Oasis is to create a seamless healthcare
                 experience for every user. We aim to bridge the gap between
                 patients and healthcare providers, making it easier for you to
                 access the care you need, when you need it.
