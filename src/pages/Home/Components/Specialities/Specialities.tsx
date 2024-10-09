@@ -1,4 +1,4 @@
-import { Box, Grid, Grid2 } from "@mui/material";
+import { Box, Grid2 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 

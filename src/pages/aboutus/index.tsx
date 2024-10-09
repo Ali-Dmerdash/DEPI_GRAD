@@ -2,7 +2,7 @@ import React from "react";
 import {
   Box,
   Typography,
-  Grid,
+  Grid2,
   Card,
   CardContent,
   Container,
@@ -24,8 +24,8 @@ function AboutUs() {
           <span style={{ fontWeight: "300", color: "gray" }}>ABOUT</span>
           <span style={{ fontWeight: "bold" }}> US</span>
         </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4} sx={{ backgroundColor: "" }}>
+        <Grid2 container spacing={3}>
+          <Grid2 size={{ xs: 12, md: 4 }} sx={{ backgroundColor: "" }}>
             <Box sx={{ p: 0, m: 0, overflow: "hidden" }}>
               <Box
                 component="img"
@@ -37,8 +37,8 @@ function AboutUs() {
                 }}
               />
             </Box>
-          </Grid>
-          <Grid item xs={12} md={8} sx={{ marginTop: "70px" }}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 8 }} sx={{ marginTop: "70px" }}>
             <Typography
               variant="body1"
               gutterBottom
@@ -68,16 +68,14 @@ function AboutUs() {
                 access the care you need, when you need it.
               </Typography>
             </Typography>
-          </Grid>
-          <Grid item xs={12} md={12} sx={{}}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 12 }}>
             <Typography variant="h6" color="initial">
               WHY <span style={{ fontWeight: "bold" }}> CHOOSE US</span>
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={4}
+          </Grid2>
+          <Grid2
+            size={{ xs: 12, md: 4 }}
             mt={2}
             sx={{
               border: "0.5px ridge gray",
@@ -101,11 +99,9 @@ function AboutUs() {
                 lifestyle.
               </Typography>
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={4}
+          </Grid2>
+          <Grid2
+            size={{ xs: 12, md: 4 }}
             mt={2}
             sx={{
               border: "0.5px ridge gray",
@@ -129,11 +125,9 @@ function AboutUs() {
                 area.
               </Typography>
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={4}
+          </Grid2>
+          <Grid2
+            size={{ xs: 12, md: 4 }}
             mt={2}
             sx={{
               border: "0.5px ridge gray",
@@ -157,8 +151,8 @@ function AboutUs() {
                 of your health.
               </Typography>
             </Typography>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Container>
       <Footer />
     </>

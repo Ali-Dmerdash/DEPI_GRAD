@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, Typography, Box, Button } from "@mui/material";
+import { Container, Grid2, Typography, Box, Button } from "@mui/material";
 import Footer from "../../Components/Footer/Footer";
 import Navbar from "../../Components/Navbar/Navbar";
 
@@ -18,8 +18,8 @@ function ContactUs() {
           <span style={{ fontWeight: "bold" }}> US</span>
         </Typography>
 
-        <Grid container spacing={5}>
-          <Grid item xs={12} md={6}>
+        <Grid2 container spacing={5}>
+          <Grid2 size={{ xs: 12, md: 6 }}>
             <Box sx={{ p: 0, m: 0, overflow: "hidden" }}>
               <Box
                 component="img"
@@ -33,9 +33,9 @@ function ContactUs() {
                 }}
               />
             </Box>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} md={6}>
+          <Grid2 size={{ xs: 12, md: 6 }}>
             <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
               OUR OFFICE
             </Typography>
@@ -79,8 +79,8 @@ function ContactUs() {
                 Explore Jobs
               </Button>
             </Box>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Container>
       <Footer />
     </>

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid2, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AppointmentDays from "./AppointmentDays/AppointmentDays";
 import AppointmentHour from "./AppointmentHour/AppointmentHour";

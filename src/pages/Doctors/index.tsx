@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   Container,
-  Grid,
+  Grid2,
   Card,
   CardContent,
   Typography,
@@ -174,11 +174,11 @@ const Doctors: React.FC = () => {
     <>
       <Navbar />
       <Container maxWidth="lg">
-        <Grid item xs={12} md={12} mb={3}>
+        <Grid2 size={{ xs: 12, md: 8 }} mb={3}>
           Browse through the doctors specialist.
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={2}>
+        </Grid2>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ xs: 12, md: 2 }}>
             <Box
               sx={{
                 padding: 2,
@@ -208,12 +208,12 @@ const Doctors: React.FC = () => {
                 </Button>
               ))}
             </Box>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} md={10}>
-            <Grid container spacing={2}>
+          <Grid2 size={{ xs: 12, md: 10 }}>
+            <Grid2 container spacing={2}>
               {filteredDoctors.map((doctor) => (
-                <Grid item xs={12} md={3} key={doctor.id}>
+                <Grid2 size={{ xs: 12, md: 3 }} key={doctor.id}>
                   <Card
                     sx={{
                       transition: "transform 0.2s",
@@ -249,11 +249,11 @@ const Doctors: React.FC = () => {
                       </Typography>
                     </CardContent>
                   </Card>
-                </Grid>
+                </Grid2>
               ))}
-            </Grid>
-          </Grid>
-        </Grid>
+            </Grid2>
+          </Grid2>
+        </Grid2>
       </Container>
       <Footer />
     </>
