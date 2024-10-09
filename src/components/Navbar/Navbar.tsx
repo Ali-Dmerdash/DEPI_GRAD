@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import NavLinks from "./NavLinks/NavLinks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SegmentIcon from "@mui/icons-material/Segment";
+import UserDropdownMenu from "../UserDropdownMenu/UserDropdownMenu";
 
 export default function Navbar() {
   let navLinks = [
@@ -17,7 +18,7 @@ export default function Navbar() {
   let navigate = useNavigate();
 
   const [activePath, setActivePath] = useState(null);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <Stack>
       <Container
@@ -89,19 +90,24 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <Button
-            sx={{
-              borderRadius: "30px",
-              padding: "15px 30px",
-              backgroundColor: "var(--primary-color)",
-              color: "white",
-            }}
-            onClick={() => {
-              navigate("./register");
-            }}
-          >
-            Create Account
-          </Button>
+          {!isLoggedIn ? (
+            <Button
+              sx={{
+                borderRadius: "30px",
+                padding: "15px 30px",
+                backgroundColor: "var(--primary-color)",
+                color: "white",
+              }}
+              onClick={() => {
+                navigate("./register");
+              }}
+            >
+              Create Account
+            </Button>
+          ) : (
+            <UserDropdownMenu />
+          )}
+
           <Button
             sx={{
               fontSize: "30px",
