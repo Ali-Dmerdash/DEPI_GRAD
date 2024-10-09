@@ -14,7 +14,7 @@ type Props = {};
 const AddDoctor = (props: Props) => {
   return (
     <Container>
-      <Box component="form">
+      <Box sx={{ boxShadow: 2, mb: 2 }} component="form">
         <Typography variant="h5">Add Doctor</Typography>
         <Box>
           <Box>
