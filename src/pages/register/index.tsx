@@ -1,11 +1,40 @@
 import { Container, Box, Typography, TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+import { TextFieldElement } from "react-hook-form-mui";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { supabase } from "../../lib/supabase/clients";
+import Joi from "joi";
+
+const formSchema = Joi.object({
+  fullname: Joi.string().required(),
+  email: Joi.string().email({ tlds: false }).required(),
+  password: Joi.string().required(),
+});
 
 function Register() {
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // Add login logic here
-  };
+  const form = useForm<{ fullname: string; email: string; password: string }>({
+    resolver: joiResolver(formSchema),
+  });
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    const userRes = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (!userRes.data.user?.id) throw Error("failed to register user");
+
+    try {
+      await supabase
+        .from("profile")
+        .insert({ fullname: data.fullname, id: userRes.data.user.id })
+        .returns();
+
+      // todo: redirect to the page
+    } catch {}
+  });
 
   return (
     <>
@@ -30,8 +59,9 @@ function Register() {
           </Typography>
 
           {/* Login Form */}
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
+          <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+            <TextFieldElement
+              control={form.control}
               margin="normal"
               required
               fullWidth
@@ -41,7 +71,8 @@ function Register() {
               id="fullname"
               autoFocus
             />
-            <TextField
+            <TextFieldElement
+              control={form.control}
               margin="normal"
               required
               fullWidth
@@ -49,7 +80,8 @@ function Register() {
               label="Email"
               name="email"
             />
-            <TextField
+            <TextFieldElement
+              control={form.control}
               margin="normal"
               required
               fullWidth

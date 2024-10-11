@@ -11,7 +11,7 @@ import {
   SupabaseClient,
   AuthChangeEvent,
 } from "@supabase/supabase-js";
-import { createSupabaseClient } from "../supabase/clients";
+import { supabase } from "../supabase/clients";
 
 // Define the shape of the AuthContext
 interface AuthContextType {
@@ -29,7 +29,6 @@ interface AuthProviderProps {
 
 // Create the AuthProvider component
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const supabase = createSupabaseClient();
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {

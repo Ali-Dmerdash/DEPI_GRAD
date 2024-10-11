@@ -17,6 +17,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
     "@supabase/auth-ui-react": "^0.4.7",
@@ -27,6 +28,8 @@
     "joi": "^17.13.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "react-hook-form-mui": "^7.3.0",
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.26.2",
     "supabase": "^1.204.3"
