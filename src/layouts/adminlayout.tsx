@@ -1,6 +1,6 @@
 import React from "react";
-import AdminNavbar from "../Components/AdminNavbar/AdminNavbar";
-import Sidebar from "../Components/Sidebar/Sidebar";
+import AdminNavbar from "../Components/AdminNavbar";
+import Sidebar from "../Components/Sidebar";
 import { Box, Grid2 } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
