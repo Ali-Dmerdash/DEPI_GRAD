@@ -5,9 +5,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { IoIosArrowDown } from "react-icons/io";
 import profile_img from "../../assets/profile_img.svg";
 import { Box } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 function UserDropdownMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,11 +43,31 @@ function UserDropdownMenu() {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={handleClose}>My profile</MenuItem>
-        <MenuItem onClick={handleClose}>My appointments</MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          My profile
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate("userappointment");
+          }}
+        >
+          My appointments
+        </MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
-      <img src={profile_img} />
+      <Button
+        id="demo-positioned-menu"
+        aria-controls={open ? "demo-positioned-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
+        <img onClick={handleClick} src={profile_img} />
+      </Button>
     </Box>
   );
 }
