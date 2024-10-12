@@ -7,6 +7,8 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { TextFieldElement } from "react-hook-form-mui";
 import Joi from "joi";
 import { supabase } from "../../lib/supabase/clients";
+import { useEffect } from "react";
+import { useAuth } from "../../lib/context/auth-context";
 
 const formSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
@@ -17,8 +19,13 @@ function Login() {
   const form = useForm<{ email: string; password: string }>({
     resolver: joiResolver(formSchema),
   });
+  const { session } = useAuth();
 
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
   const onSubmit = form.handleSubmit(async (data) => {
+    console.log(data);
     await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,

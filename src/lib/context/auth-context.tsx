@@ -6,17 +6,16 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import {
-  Session,
-  SupabaseClient,
-  AuthChangeEvent,
-} from "@supabase/supabase-js";
+import { Session, SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "../supabase/clients";
+import { Database } from "../../../database.types";
 
 // Define the shape of the AuthContext
 interface AuthContextType {
   session: Session | null;
   supabase: SupabaseClient;
+  isLoading: boolean;
+  profile: Database["public"]["Tables"]["profile"]["Row"] | null;
 }
 
 // Create the AuthContext with default values
@@ -30,33 +29,71 @@ interface AuthProviderProps {
 // Create the AuthProvider component
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [profile, setProfile] = useState<
+    Database["public"]["Tables"]["profile"]["Row"] | null
+  >(null);
 
   useEffect(() => {
-    // Fetch the initial session
-    const getSession = async () => {
+    const setData = async () => {
       const {
         data: { session },
+        error,
       } = await supabase.auth.getSession();
+      if (error) {
+        setLoading(false);
+        throw error;
+      }
       setSession(session);
+
+      if (session) {
+        // get profile data
+        supabase
+          .from("profile")
+          .select()
+          .eq("id", session.user.id)
+          .single()
+          .then((data) => {
+            if (data) {
+              setProfile(data as any);
+              setLoading(false);
+              if (data) console.log("Admin Account");
+            }
+          });
+      }
     };
 
-    getSession();
-
-    // Listen for changes to auth state
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event: AuthChangeEvent, session: Session | null) => {
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
         setSession(session);
+
+        if (session) {
+          // get profile data
+          supabase
+            .from("profile")
+            .select()
+            .eq("id", session.user.id)
+            .single()
+            .then((data) => {
+              if (data) {
+                setProfile(data as any);
+                setLoading(false);
+                if (data) console.log("Admin Account");
+              }
+            });
+        }
       }
     );
 
-    // Cleanup subscription on unmount
+    setData();
+
     return () => {
-      authListener.subscription.unsubscribe();
+      listener?.subscription.unsubscribe();
     };
   }, []);
 
   return (
-    <AuthContext.Provider value={{ session, supabase }}>
+    <AuthContext.Provider value={{ isLoading, session, supabase, profile }}>
       {children}
     </AuthContext.Provider>
   );
