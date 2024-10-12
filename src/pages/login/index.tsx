@@ -1,17 +1,32 @@
 import { Link } from "react-router-dom";
 import "./login.css";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import Navbar from "../../Components/Navbar/Navbar";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+
+import { TextFieldElement } from "react-hook-form-mui";
+import Joi from "joi";
+import { supabase } from "../../lib/supabase/clients";
+
+const formSchema = Joi.object({
+  email: Joi.string().email({ tlds: false }).required(),
+  password: Joi.string().required(),
+});
 
 function Login() {
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // Add login logic here
-  };
+  const form = useForm<{ email: string; password: string }>({
+    resolver: joiResolver(formSchema),
+  });
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+  });
 
   return (
     <>
-      <Navbar />
       <Container component="main" maxWidth="sm">
         <Box
           sx={{
@@ -33,8 +48,9 @@ function Login() {
           </Typography>
 
           {/* Login Form */}
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
+          <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+            <TextFieldElement
+              control={form.control}
               margin="normal"
               required
               fullWidth
@@ -44,7 +60,8 @@ function Login() {
               autoComplete="email"
               autoFocus
             />
-            <TextField
+            <TextFieldElement
+              control={form.control}
               margin="normal"
               required
               fullWidth

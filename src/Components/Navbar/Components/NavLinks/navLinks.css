@@ -1,0 +1,16 @@
+a {
+  text-decoration: none;
+  color: var(--text-color);
+  position: relative;
+}
+
+.active::after {
+  content: "";
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  height: 1px;
+  background-color: var(--secondary-color);
+  width: 50%;
+  transform: translate(-50%, -50%);
+}
