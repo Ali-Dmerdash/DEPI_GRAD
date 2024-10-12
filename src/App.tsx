@@ -28,6 +28,7 @@ import UserLayout from "./layouts/userlayout";
 import Provider from "./Components/provider";
 import { useAuth } from "./lib/context/auth-context";
 import { useEffect } from "react";
+import ProtectedRoute from "./lib/protectedroute/protected-route";
 
 function App() {
   return (
@@ -69,19 +70,3 @@ function App() {
 
 export default App;
 library.add(fab, fas, far);
-
-const ProtectedRoute = ({ isAdmin }: { isAdmin?: boolean }) => {
-  const { profile, isLoading } = useAuth();
-
-  useEffect(() => {
-    console.log("hehe");
-    console.log(profile);
-  }, []);
-
-  if (isLoading) return <></>;
-  if (!profile) {
-    return <Navigate to={"/login"} />;
-  } else {
-    return <Outlet />;
-  }
-};

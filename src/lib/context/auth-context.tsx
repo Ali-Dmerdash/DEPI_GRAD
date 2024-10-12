@@ -36,6 +36,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const setData = async () => {
+      console.log(isLoading + " setdata");
+
       const {
         data: { session },
         error,
@@ -56,15 +58,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           .then((data) => {
             if (data) {
               setProfile(data as any);
-              setLoading(false);
-              if (data) console.log("Admin Account");
+              console.log(data);
+              console.log("got profile");
             }
           });
       }
+      setLoading(false);
     };
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
+        console.log(isLoading + " authchange");
         setSession(session);
 
         if (session) {
@@ -77,11 +81,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             .then((data) => {
               if (data) {
                 setProfile(data as any);
-                setLoading(false);
-                if (data) console.log("Admin Account");
+                console.log(data);
+                console.log("got profile");
               }
             });
         }
+        setLoading(false);
       }
     );
 
