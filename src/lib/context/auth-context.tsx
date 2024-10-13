@@ -36,23 +36,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     Database["public"]["Tables"]["profile"]["Row"] | null
   >(null);
 
-<<<<<<< HEAD
   // Logout function to sign the user out
   const logout = async () => {
     try {
       console.log("Attempting to logout...");
       const { error } = await supabase.auth.signOut();
       console.log("signOut called");
-=======
-  useEffect(() => {
-    const setData = async () => {
-      console.log(isLoading + " setdata");
-
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
->>>>>>> 17660ff9cec2d79dcfe26e61ceb6503d143fbb13
       if (error) {
         console.error("Error during logout:", error);
       } else {
@@ -73,7 +62,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { data: profileData, error: profileError } = await supabase
           .from("profile")
           .select()
-<<<<<<< HEAD
           .eq("id", userId)
           .single();
 
@@ -90,22 +78,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } catch (err) {
         console.error("Unexpected error fetching profile:", err);
         setProfile(null);
-=======
-          .eq("id", session.user.id)
-          .single()
-          .then((data) => {
-            if (data) {
-              setProfile(data as any);
-              console.log(data);
-              console.log("got profile");
-            }
-          });
->>>>>>> 17660ff9cec2d79dcfe26e61ceb6503d143fbb13
       }
-      setLoading(false);
     };
 
-<<<<<<< HEAD
     // Function to fetch the initial session
     const fetchInitialSession = async () => {
       try {
@@ -145,29 +120,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         setLoading(false); // End loading after processing auth state change
-=======
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        console.log(isLoading + " authchange");
-        setSession(session);
-
-        if (session) {
-          // get profile data
-          supabase
-            .from("profile")
-            .select()
-            .eq("id", session.user.id)
-            .single()
-            .then((data) => {
-              if (data) {
-                setProfile(data as any);
-                console.log(data);
-                console.log("got profile");
-              }
-            });
-        }
-        setLoading(false);
->>>>>>> 17660ff9cec2d79dcfe26e61ceb6503d143fbb13
       }
     );
 

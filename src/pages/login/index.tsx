@@ -24,7 +24,6 @@ function Login() {
   useEffect(() => {
     console.log(session);
   }, [session]);
-
   const onSubmit = form.handleSubmit(async (data) => {
     console.log(data);
     await supabase.auth.signInWithPassword({
