@@ -25,12 +25,11 @@ import Appointments from "./pages/admin/admin-appointment/Components/admin-appoi
 import ListDoctors from "./pages/user/home/Components/listDoctors/index.";
 import AdminLayout from "./layouts/adminlayout";
 import UserLayout from "./layouts/userlayout";
-import Provider from "./Components/provider";
-import { useAuth } from "./lib/context/auth-context";
+import ProtectedRoute from "./lib/protectedroute/protected-route";
 
 function App() {
   return (
-    <Provider>
+    <>
       <Container maxWidth={"lg"}>
         <Routes>
           <Route path="*" element={<Error />} />
@@ -62,19 +61,9 @@ function App() {
           </Route>
         </Routes>
       </Container>
-    </Provider>
+    </>
   );
 }
 
 export default App;
 library.add(fab, fas, far);
-
-const ProtectedRoute = ({ isAdmin }: { isAdmin?: boolean }) => {
-  const { session } = useAuth();
-
-  if (!session) {
-    return <Navigate to={"/login"} />;
-  } else {
-    return <Outlet />;
-  }
-};

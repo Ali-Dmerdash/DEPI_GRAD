@@ -5,7 +5,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { IoIosArrowDown } from "react-icons/io";
 import profile_img from "../../assets/profile_img.svg";
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../lib/context/auth-context";
 function UserDropdownMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -13,8 +14,17 @@ function UserDropdownMenu() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const { logout } = useAuth();
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  // Function to handle logout
+  const handleLogout = async () => {
+    handleClose(); // First, close the menu
+    await logout(); // Then, perform logout
   };
 
   return (
@@ -52,12 +62,12 @@ function UserDropdownMenu() {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            navigate("userappointment");
+            navigate("/userappointment");
           }}
         >
           My appointments
         </MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
       <Button
         id="demo-positioned-menu"
