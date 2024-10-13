@@ -25,6 +25,12 @@ import Appointments from "./pages/admin/admin-appointment/Components/admin-appoi
 import ListDoctors from "./pages/user/home/Components/listDoctors/index.";
 import AdminLayout from "./layouts/adminlayout";
 import UserLayout from "./layouts/userlayout";
+<<<<<<< HEAD
+=======
+import Provider from "./Components/provider";
+import { useAuth } from "./lib/context/auth-context";
+import { useEffect } from "react";
+>>>>>>> 17660ff9cec2d79dcfe26e61ceb6503d143fbb13
 import ProtectedRoute from "./lib/protectedroute/protected-route";
 
 function App() {
