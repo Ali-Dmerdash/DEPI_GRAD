@@ -17,6 +17,9 @@ interface AuthContextType {
   supabase: SupabaseClient;
   isLoading: boolean;
   profile: Database["public"]["Tables"]["profile"]["Row"] | null;
+  doctor: Database["public"]["Tables"]["doctor"]["Row"] | null;
+  patient: Database["public"]["Tables"]["patient"]["Row"] | null;
+  appointment: Database["public"]["Tables"]["appointment"]["Row"] | null;
   logout: () => Promise<void>;
 }
 
@@ -35,6 +38,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<
     Database["public"]["Tables"]["profile"]["Row"] | null
   >(null);
+  const [doctor, setDoctor] = useState<
+    Database["public"]["Tables"]["doctor"]["Row"] | null
+  >(null);
+  const [patient, setPatient] = useState<
+    Database["public"]["Tables"]["patient"]["Row"] | null
+  >(null);
+  const [appointment, setAppointment] = useState<
+    Database["public"]["Tables"]["appointment"]["Row"] | null
+  >(null);
 
   // Logout function to sign the user out
   const logout = async () => {
@@ -48,7 +60,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log("User successfully logged out.");
         setProfile(null);
         // Clear tokens from local storage if used
-        // localStorage.removeItem("sb-lllmoslobnckitvzjjwg-auth-token"); // Adjust key based on your storage setup
+        localStorage.removeItem("sb-lllmoslobnckitvzjjwg-auth-token"); // Adjust key based on your storage setup
       }
     } catch (err) {
       console.error("Unexpected error during logout:", err);
@@ -190,7 +202,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoading, session, supabase, profile, logout }}
+      value={{
+        isLoading,
+        session,
+        supabase,
+        profile,
+        patient,
+        doctor,
+        appointment,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
