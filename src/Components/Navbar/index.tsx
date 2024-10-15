@@ -14,6 +14,7 @@ import NavLinks from "./Components/NavLinks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SegmentIcon from "@mui/icons-material/Segment";
 import UserDropdownMenu from "../UserDropdownMenu";
+import { useAuth } from "../../lib/context/auth-context";
 
 export default function Navbar() {
   let navLinks = [
@@ -25,9 +26,9 @@ export default function Navbar() {
   let navigate = useNavigate();
 
   const [activePath, setActivePath] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isDrawerOpen, setDrawerOpen] = useState(false); // State for mobile drawer
-
+  const { profile } = useAuth();
+  console.log(profile);
   return (
     <Stack>
       <Container
@@ -99,7 +100,7 @@ export default function Navbar() {
 
         {/* User Dropdown / Create Account */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {!isLoggedIn ? (
+          {!profile ? (
             <Button
               sx={{
                 borderRadius: "30px",

@@ -4,6 +4,7 @@ import {
   Typography,
   Button,
   InputAdornment,
+  Grid2,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -81,146 +82,153 @@ function Register() {
   });
 
   return (
-    <>
-      <Container component="main" maxWidth="sm">
-        <Box
-          sx={{
-            marginTop: 10,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "right",
-            padding: 5,
-            boxShadow: 3,
-            borderRadius: 4,
-          }}
-        >
-          {/* Form Heading */}
-          <Typography component="h1" variant="h5" fontWeight={600}>
-            Register
-          </Typography>
-          <Typography sx={{ marginBottom: 2 }}>
-            Please register to book appointment
-          </Typography>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      {/* <Container component="main" maxWidth="sm" sx={{ padding: 0 }}> */}
+      <Box
+        sx={{
+          marginTop: 10,
+          display: "flex",
+          width: "70%",
+          flexDirection: "column",
+          alignItems: "right",
+          padding: 5,
+          boxShadow: 3,
+          borderRadius: 4,
+        }}
+      >
+        {/* Form Heading */}
+        <Typography component="h1" variant="h5" fontWeight={600}>
+          Register
+        </Typography>
+        <Typography sx={{ marginBottom: 2 }}>
+          Please register to book appointment
+        </Typography>
 
-          {/* Login Form */}
-          <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
-            <TextFieldElement
-              control={form.control}
-              margin="normal"
-              required
-              fullWidth
-              name="fullname"
-              label="Full name"
-              type="fullname"
-              id="fullname"
-              autoFocus
-            />
-            <TextFieldElement
-              control={form.control}
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-            />
-            <PasswordElement
-              control={form.control}
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-            />
-            <PasswordRepeatElement
-              control={form.control}
-              passwordFieldName="password"
-              margin="normal"
-              required
-              fullWidth
-              name="repeatpassword"
-              label="Repeat Password"
-              type="password"
-              id="repeatpassword"
-            />
-            <TextFieldElement
-              control={form.control}
-              margin="normal"
-              required
-              fullWidth
-              name="phone"
-              label="Phone"
-              id="phone"
-              helperText="(+20) 1123456789"
-              slotProps={{
-                htmlInput: {
-                  maxLength: 10,
-                  inputMode: "numeric", // Brings up numeric keypad on mobile devices
-                  pattern: "[0-9]*",
-                },
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">(+20)</InputAdornment>
-                  ),
-                },
-              }}
-            />
-            <RadioButtonGroup
-              control={form.control}
-              name="gender"
-              required
-              row
-              options={[
-                { id: "1", label: "Male", value: "Male" },
-                { id: "2", label: "Female", value: "Female" },
-              ]}
-              label="Gender"
-              labelProps={{
-                sx: { margin: "normal" },
-                id: "gender",
-              }}
-            />
-
-            <DateFnsProvider>
-              <DatePickerElement
+        {/* Login Form */}
+        <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+          <Grid2 container spacing={5}>
+            <Grid2 size={6}>
+              <TextFieldElement
                 control={form.control}
-                name="birthday"
+                margin="normal"
                 required
-                label="Birthday"
-                inputProps={{
-                  fullWidth: true,
-                  margin: "normal",
-                  id: "birthday",
+                fullWidth
+                name="fullname"
+                label="Full name"
+                type="fullname"
+                id="fullname"
+                autoFocus
+              />
+              <TextFieldElement
+                control={form.control}
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+              />
+              <PasswordElement
+                control={form.control}
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+              />
+              <PasswordRepeatElement
+                control={form.control}
+                passwordFieldName="password"
+                margin="normal"
+                required
+                fullWidth
+                name="repeatpassword"
+                label="Repeat Password"
+                type="password"
+                id="repeatpassword"
+              />
+            </Grid2>
+            <Grid2 size={6}>
+              <TextFieldElement
+                control={form.control}
+                margin="normal"
+                required
+                fullWidth
+                name="phone"
+                label="Phone"
+                id="phone"
+                helperText="(+20) 1123456789"
+                slotProps={{
+                  htmlInput: {
+                    maxLength: 10,
+                    inputMode: "numeric", // Brings up numeric keypad on mobile devices
+                    pattern: "[0-9]*",
+                  },
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">(+20)</InputAdornment>
+                    ),
+                  },
                 }}
               />
-            </DateFnsProvider>
+              <RadioButtonGroup
+                control={form.control}
+                name="gender"
+                required
+                row
+                options={[
+                  { id: "1", label: "Male", value: "Male" },
+                  { id: "2", label: "Female", value: "Female" },
+                ]}
+                label="Gender"
+                labelProps={{
+                  sx: { margin: "normal" },
+                  id: "gender",
+                }}
+              />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 3,
-                mb: 2,
-                backgroundColor: "var(--primary-color)",
-              }}
-            >
-              Register
-            </Button>
+              <DateFnsProvider>
+                <DatePickerElement
+                  control={form.control}
+                  name="birthday"
+                  required
+                  label="Birthday"
+                  inputProps={{
+                    fullWidth: true,
+                    margin: "normal",
+                    id: "birthday",
+                  }}
+                />
+              </DateFnsProvider>
 
-            {/* Registration Link */}
-            <Typography>
-              Already have an account?{" "}
-              <Link to="/login" className="secondary-color">
-                Login here
-              </Link>
-            </Typography>
-          </Box>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "var(--primary-color)",
+                }}
+              >
+                Register
+              </Button>
+            </Grid2>
+          </Grid2>
+
+          {/* Registration Link */}
+          <Typography>
+            Already have an account?{" "}
+            <Link to="/login" className="secondary-color">
+              Login here
+            </Link>
+          </Typography>
         </Box>
-      </Container>
-    </>
+      </Box>
+      {/* </Container> */}
+    </Box>
   );
 }
 
