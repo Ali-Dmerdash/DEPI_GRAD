@@ -51,9 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Logout function to sign the user out
   const logout = async () => {
     try {
-      console.log("Attempting to logout...");
       const { error } = await supabase.auth.signOut();
-      console.log("signOut called");
       if (error) {
         console.error("Error during logout:", error);
       } else {
@@ -63,7 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem("sb-lllmoslobnckitvzjjwg-auth-token"); // Adjust key based on your storage setup
       }
     } catch (err) {
-      console.error("Unexpected error during logout:", err);
+      console.error("Could not sign out", err);
     }
   };
 
@@ -82,10 +80,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setProfile(null);
         } else {
           setProfile(profileData);
-          console.log("Got profile:", profileData);
-          if (profileData.is_admin) {
-            console.log("Admin Account");
-          }
         }
       } catch (err) {
         console.error("Unexpected error fetching profile:", err);
@@ -121,7 +115,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Listen for changes to auth state
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, currentSession: Session | null) => {
-        console.log(`${isLoading} authchange`);
         setSession(currentSession);
         setLoading(true); // Start loading when auth state changes
 
@@ -135,68 +128,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     );
 
-    // const setData = async () => {
-    //   console.log(isLoading + " setdata");
-
-    //   const {
-    //     data: { session },
-    //     error,
-    //   } = await supabase.auth.getSession();
-    //   if (error) {
-    //     setLoading(false);
-    //     throw error;
-    //   }
-    //   setSession(session);
-
-    //   if (session) {
-    //     setLoading(false);
-    //     // get profile data
-    //     supabase
-    //       .from("profile")
-    //       .select()
-    //       .eq("id", session.user.id)
-    //       .single()
-    //       .then((data) => {
-    //         if (data) {
-    //           setProfile(data as any);
-    //           console.log(data);
-    //           console.log("got profile");
-    //         }
-    //       });
-    //   }
-    //   setLoading(false);
-    // };
-
-    // const { data: listener } = supabase.auth.onAuthStateChange(
-    //   (_event, session) => {
-    //     console.log(isLoading + " authchange");
-    //     setSession(session);
-
-    //     if (session) {
-    //       // get profile data
-    //       setLoading(false);
-    //       supabase
-    //         .from("profile")
-    //         .select()
-    //         .eq("id", session.user.id)
-    //         .single()
-    //         .then((data) => {
-    //           if (data) {
-    //             setProfile(data as any);
-    //             console.log(data);
-    //             console.log("got profile");
-    //           }
-    //         });
-    //     }
-    //     setLoading(false);
-    //   }
-    // );
-    // setData();
-
-    // Cleanup subscription on unmount
     return () => {
       authListener.subscription.unsubscribe();
-      // listener?.subscription.unsubscribe();
     };
   }, []);
 
