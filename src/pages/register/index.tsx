@@ -59,7 +59,7 @@ function Register() {
     try {
       await supabase
         .from("profile")
-        .insert({ fullname: data.fullname, id: userRes.data.user.id })
+        .insert({ fullname: data.fullname, id: ID })
         .returns();
 
       await supabase
