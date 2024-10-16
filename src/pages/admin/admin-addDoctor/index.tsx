@@ -96,8 +96,8 @@ function AddDoctor() {
           >
             <Grid2 size={{ lg: 7, sm: 12 }}>
               <Box sx={{ marginTop: "3px" }}>
-                <Typography component="label">Doctor Name</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="fullname"
@@ -107,8 +107,8 @@ function AddDoctor() {
               </Box>
 
               <Box sx={{ marginTop: "3px" }}>
-                <Typography component="label">Doctor Email</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="email"
@@ -119,7 +119,6 @@ function AddDoctor() {
               </Box>
 
               <Box sx={{ marginTop: "3px" }}>
-                <Typography component="label">Doctor Password</Typography>
                 <PasswordElement
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
@@ -131,8 +130,8 @@ function AddDoctor() {
               </Box>
 
               <Box sx={{ marginTop: "3px" }}>
-                <Typography component="label">Experience (in years)</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="experience"
@@ -143,8 +142,8 @@ function AddDoctor() {
               </Box>
 
               <Box sx={{ marginTop: "3px" }}>
-                <Typography component="label">Fees</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="fees"
@@ -155,8 +154,8 @@ function AddDoctor() {
               </Box>
 
               <Box sx={{ marginTop: "3px" }}>
-                <Typography component="label">About</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="about"
@@ -168,8 +167,8 @@ function AddDoctor() {
 
             <Grid2 size={{ lg: 5, sm: 12 }}>
               <Box>
-                <Typography component="label">Specialty</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="specialty"
@@ -179,8 +178,8 @@ function AddDoctor() {
               </Box>
 
               <Box sx={{ marginTop: "10px" }}>
-                <Typography component="label">Address</Typography>
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="address"
@@ -188,6 +187,7 @@ function AddDoctor() {
                   required
                 />
                 <TextFieldElement
+                  size="small"
                   control={form.control}
                   sx={{ marginTop: "10px", width: "100%" }}
                   name="address_sec"

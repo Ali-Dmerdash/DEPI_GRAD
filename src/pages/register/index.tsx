@@ -105,6 +105,7 @@ function Register() {
           {/* Login Form */}
           <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
             <TextFieldElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -116,6 +117,7 @@ function Register() {
               autoFocus
             />
             <TextFieldElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -125,6 +127,7 @@ function Register() {
               name="email"
             />
             <PasswordElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -135,6 +138,7 @@ function Register() {
               id="password"
             />
             <PasswordRepeatElement
+              size="small"
               control={form.control}
               passwordFieldName="password"
               margin="normal"
@@ -146,6 +150,7 @@ function Register() {
               id="repeatpassword"
             />
             <TextFieldElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -193,6 +198,7 @@ function Register() {
                   fullWidth: true,
                   margin: "normal",
                   id: "birthday",
+                  size: "small",
                 }}
               />
             </DateFnsProvider>
