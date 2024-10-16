@@ -59,38 +59,13 @@ export default function Home() {
             </Typography>
           </Box>
           <Stack>
-            {/* <Grid2 container spacing={2} sx={{ marginTop: "20px" }}>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
-                <DoctorCardsDisplay doctor={doctor} />
-              </Grid2>
-            </Grid2> */}
+            <Grid2 container spacing={2} sx={{ marginTop: "20px" }}>
+              {doctor?.map((doctor, i) => (
+                <Grid2 size={{ xs: 12, sm: 6, md: 2.4 }}>
+                  <DoctorCardsDisplay doctor={doctor} />
+                </Grid2>
+              ))}
+            </Grid2>
           </Stack>
           <Stack sx={{ justifyContent: "center" }}>
             <Button
