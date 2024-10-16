@@ -17,8 +17,10 @@ import {
   FaUserInjured,
   FaCalendarCheck,
 } from "react-icons/fa";
+import { useAuth } from "../../../lib/context/auth-context";
 
 const Dashboard = () => {
+  const { doctor, appointment, patients } = useAuth();
   return (
     <>
       <Box sx={{ py: 6, px: 2 }}>
@@ -31,7 +33,7 @@ const Dashboard = () => {
               <FaUserMd size={40} color="#007BFF" />
               <Box sx={{ ml: 2 }}>
                 <Typography variant="h4" fontWeight="bold">
-                  15
+                  {doctor?.length}
                 </Typography>
                 <Typography color="textSecondary">Doctors</Typography>
               </Box>
@@ -46,7 +48,7 @@ const Dashboard = () => {
               <FaCalendarAlt size={40} color="#28A745" />
               <Box sx={{ ml: 2 }}>
                 <Typography variant="h4" fontWeight="bold">
-                  30
+                  {appointment?.length}
                 </Typography>
                 <Typography color="textSecondary">Appointments</Typography>
               </Box>
@@ -61,7 +63,7 @@ const Dashboard = () => {
               <FaUserInjured size={40} color="#007BFF" />
               <Box sx={{ ml: 2 }}>
                 <Typography variant="h4" fontWeight="bold">
-                  50
+                  {patients?.length}
                 </Typography>
                 <Typography color="textSecondary">Patients</Typography>
               </Box>

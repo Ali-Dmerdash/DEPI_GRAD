@@ -3,6 +3,7 @@ import AdminNavbar from "../Components/AdminNavbar";
 import Sidebar from "../Components/Sidebar";
 import { Box, Grid2 } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "../lib/context/auth-context";
 
 const AdminLayout = () => {
   return (

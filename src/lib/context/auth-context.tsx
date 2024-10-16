@@ -15,7 +15,9 @@ interface AuthContextType {
   isLoading: boolean;
   profile: Database["public"]["Tables"]["profile"]["Row"] | null;
   doctor: Database["public"]["Tables"]["doctor"]["Row"][] | null;
+  patients: Database["public"]["Tables"]["patient"]["Row"][] | null;
   patient: Database["public"]["Tables"]["patient"]["Row"] | null;
+
   appointment: Database["public"]["Tables"]["appointment"]["Row"][] | null;
   logout: () => Promise<void>;
 }
@@ -37,6 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [doctor, setDoctor] = useState<Doctor[] | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [patients, setPatients] = useState<Patient[] | null>(null);
   const [appointment, setAppointment] = useState<Appointment[] | null>(null);
 
   // Fetch User Profile
@@ -88,6 +91,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         })
     );
   };
+  const fetchAllPatients = (): Promise<Patient[] | null> => {
+    return Promise.resolve(
+      supabase
+        .from("patient")
+        .select("*")
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Doctor fetch error:", error);
+            return null;
+          }
+          return data;
+        })
+    );
+  };
 
   // Fetch Patient Data
   const fetchPatient = (userId: string): Promise<Patient | null> => {
@@ -121,13 +138,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       fetchAppointments(),
       fetchDoctor(),
       fetchPatient(currentSession.user.id),
+      fetchAllPatients(),
     ])
-      .then(([profileData, appointmentData, doctorData, patientData]) => {
-        setProfile(profileData);
-        setAppointment(appointmentData);
-        setDoctor(doctorData);
-        setPatient(patientData);
-      })
+      .then(
+        ([
+          profileData,
+          appointmentData,
+          doctorData,
+          patientData,
+          patientsData,
+        ]) => {
+          setProfile(profileData);
+          setAppointment(appointmentData);
+          setDoctor(doctorData);
+          setPatient(patientData);
+          setPatients(patientsData);
+        }
+      )
       .catch((error: Error) => {
         console.error("Error loading user data:", error);
         setProfile(null);
@@ -210,6 +237,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     profile,
     doctor,
     patient,
+    patients,
     appointment,
     logout,
   };
