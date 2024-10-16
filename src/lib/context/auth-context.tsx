@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.tsx
 import React, {
   createContext,
   useContext,
@@ -9,177 +8,218 @@ import React, {
 import { Session, SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "../supabase/clients";
 import { Database } from "../../../database.types";
-import { useNavigate } from "react-router-dom";
 
-// Define the shape of the AuthContext
 interface AuthContextType {
   session: Session | null;
   supabase: SupabaseClient;
   isLoading: boolean;
   profile: Database["public"]["Tables"]["profile"]["Row"] | null;
-  doctor: Database["public"]["Tables"]["doctor"]["Row"] | null;
+  doctor: Database["public"]["Tables"]["doctor"]["Row"][] | null;
   patient: Database["public"]["Tables"]["patient"]["Row"] | null;
-  appointment: Database["public"]["Tables"]["appointment"]["Row"][] | null; // Make sure this is an array
+  appointment: Database["public"]["Tables"]["appointment"]["Row"][] | null;
   logout: () => Promise<void>;
-
 }
 
-// Create the AuthContext with default values
+type Profile = Database["public"]["Tables"]["profile"]["Row"];
+type Appointment = Database["public"]["Tables"]["appointment"]["Row"];
+type Doctor = Database["public"]["Tables"]["doctor"]["Row"];
+type Patient = Database["public"]["Tables"]["patient"]["Row"];
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Define the props for the AuthProvider
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Create the AuthProvider component
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [profile, setProfile] = useState<
-    Database["public"]["Tables"]["profile"]["Row"] | null
-  >(null);
-  const [doctor, setDoctor] = useState<
-    Database["public"]["Tables"]["doctor"]["Row"] | null
-  >(null);
-  const [patient, setPatient] = useState<
-    Database["public"]["Tables"]["patient"]["Row"] | null
-  >(null);
-  const [appointment, setAppointment] = useState<
-    Database["public"]["Tables"]["appointment"]["Row"][] | null
-  >(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [doctor, setDoctor] = useState<Doctor[] | null>(null);
+  const [patient, setPatient] = useState<Patient | null>(null);
+  const [appointment, setAppointment] = useState<Appointment[] | null>(null);
 
-
-
-
-  // Logout function to sign the user out
-  const logout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Error during logout:", error);
-      } else {
-        console.log("User successfully logged out.");
-        setProfile(null);
-        // Clear tokens from local storage if used
-        localStorage.removeItem("sb-lllmoslobnckitvzjjwg-auth-token"); // Adjust key based on your storage setup
-      }
-    } catch (err) {
-      console.error("Could not sign out", err);
-    }
-  };
-  
-  useEffect(() => {
-
-
-    const fetchAppointments = async () => {
-      try {
-        const { data:appointmentData, error:appointmentError } = await supabase
-          .from('appointment')
-          .select('*');
-        if (appointmentError) {
-          console.error('Error fetching appointments:', appointmentError);
-          return;
-        }
-        console.error('got appointment');
-        setAppointment(appointmentData);
-        console.log(appointment);
-      } catch (err) {
-        console.error('Unexpected error:', err);
-      } 
-  }
-    // Function to fetch the user profile
-    const fetchUserProfile = async (userId: string) => {
-      try {
-        const { data: profileData, error: profileError } = await supabase
-          .from("profile")
-          .select()
-          .eq("id", userId)
-          .single();
-
-        if (profileError) {
-          console.error("Error fetching profile:", profileError);
-          setProfile(null);
-        } else {
-          setProfile(profileData);
-        }
-      } catch (err) {
-        console.error("Unexpected error fetching profile:", err);
-        setProfile(null);
-      }
-    };
-
-    // Function to fetch the initial session
-    const fetchInitialSession = async () => {
-      try {
-        const {
-          data: { session: initialSession },
-          error,
-        } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Error fetching session:", error);
-          setLoading(false);
-          return;
-        }
-        setSession(initialSession);
-        if (initialSession) {
-          await fetchUserProfile(initialSession.user.id);
-          await fetchAppointments();
-        }
-      } catch (err) {
-        console.error("Unexpected error fetching session:", err);
-      } finally {
-        setLoading(false); // Set loading to false after fetching session and profile
-      }
-    };
-
-    fetchInitialSession();
-    
-    // Listen for changes to auth state
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, currentSession: Session | null) => {
-        setSession(currentSession);
-        setLoading(true); // Start loading when auth state changes
-         console.log(currentSession);
-        if (currentSession) {
-          await fetchUserProfile(currentSession.user.id);
-          await fetchAppointments();
-          console.log(appointment);
-        } else {
-          setProfile(null);
-        }
-        setLoading(false); // End loading after processing auth state change
-      }
+  // Fetch User Profile
+  const fetchUserProfile = (userId: string): Promise<Profile | null> => {
+    return Promise.resolve(
+      supabase
+        .from("profile")
+        .select()
+        .eq("id", userId)
+        .single()
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Profile fetch error:", error);
+            return null;
+          }
+          return data;
+        })
     );
+  };
+
+  // Fetch Appointments
+  const fetchAppointments = (): Promise<Appointment[] | null> => {
+    return Promise.resolve(
+      supabase
+        .from("appointment")
+        .select("*")
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Appointments fetch error:", error);
+            return null;
+          }
+          return data;
+        })
+    );
+  };
+
+  // Fetch Doctor Data
+  const fetchDoctor = (): Promise<Doctor[] | null> => {
+    return Promise.resolve(
+      supabase
+        .from("doctor")
+        .select("*")
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Doctor fetch error:", error);
+            return null;
+          }
+          return data;
+        })
+    );
+  };
+
+  // Fetch Patient Data
+  const fetchPatient = (userId: string): Promise<Patient | null> => {
+    return Promise.resolve(
+      supabase
+        .from("patient")
+        .select("*")
+        .eq("user_id", userId) // Assuming the user ID is associated with the patient
+        .single()
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Patient fetch error:", error);
+            return null;
+          }
+          return data;
+        })
+    );
+  };
+
+  const loadUserData = (currentSession: Session | null) => {
+    if (!currentSession?.user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
+    // Fetch profile, appointments, doctor, and patient data
+    Promise.all([
+      fetchUserProfile(currentSession.user.id),
+      fetchAppointments(),
+      fetchDoctor(),
+      fetchPatient(currentSession.user.id),
+    ])
+      .then(([profileData, appointmentData, doctorData, patientData]) => {
+        setProfile(profileData);
+        setAppointment(appointmentData);
+        setDoctor(doctorData);
+        setPatient(patientData);
+      })
+      .catch((error: Error) => {
+        console.error("Error loading user data:", error);
+        setProfile(null);
+        setAppointment(null);
+        setDoctor(null);
+        setPatient(null);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    const initialize = () => {
+      Promise.resolve(supabase.auth.getSession()).then(
+        ({ data: { session: initialSession } }) => {
+          if (!mounted) return;
+
+          setSession(initialSession);
+
+          if (initialSession) {
+            loadUserData(initialSession);
+          } else {
+            setLoading(false);
+          }
+        }
+      );
+    };
+
+    initialize();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, currentSession) => {
+      if (!mounted) return;
+
+      setSession(currentSession);
+
+      if (event === "SIGNED_IN" && currentSession) {
+        loadUserData(currentSession);
+      } else if (event === "SIGNED_OUT") {
+        setProfile(null);
+        setAppointment(null);
+        setDoctor(null);
+        setPatient(null);
+        setLoading(false);
+      }
+    });
 
     return () => {
-      authListener.subscription.unsubscribe();
+      mounted = false;
+      subscription.unsubscribe();
     };
   }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        isLoading,
-        session,
-        supabase,
-        profile,
-        patient,
-        doctor,
-        appointment,
-        logout
+  const logout = (): Promise<void> => {
+    setLoading(true);
+    return Promise.resolve(supabase.auth.signOut())
+      .then(({ error }) => {
+        if (error) throw error;
+      })
+      .catch((error: Error) => {
+        console.error("Logout error:", error);
+      })
+      .finally(() => {
+        setProfile(null);
+        setAppointment(null);
+        setDoctor(null);
+        setPatient(null);
+        setLoading(false);
+      });
+  };
 
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value: AuthContextType = {
+    session,
+    supabase,
+    isLoading,
+    profile,
+    doctor,
+    patient,
+    appointment,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook to use the AuthContext
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;

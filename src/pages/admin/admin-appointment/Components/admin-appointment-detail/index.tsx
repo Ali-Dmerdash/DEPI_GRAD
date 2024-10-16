@@ -1,37 +1,50 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { FaClipboardList } from "react-icons/fa";
 import {
-  Box, Typography, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Button, useMediaQuery,
-  Dialog, DialogTitle, DialogContent, DialogActions
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  useMediaQuery,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import { useAuth } from "../../../../../lib/context/auth-context";
 
 interface Appointment {
-  id: string;          
-  patient_id: string;   
-  doctor_id: string;   
-  created_at: string;   
-  fees: number;        
+  id: string;
+  patient_id: string;
+  doctor_id: string;
+  created_at: string;
+  fees: number;
 }
 
 const Appointments: React.FC = () => {
-  const { isLoading, appointment,session } = useAuth();
+  const { isLoading, appointment, session } = useAuth();
   console.log(appointment);
   console.log("Appointment from useAuth:", appointment);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
-  // const [appointments, setAppointments] = useState<Appointment[]>([]); 
+  // const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null); 
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
 
   useEffect(() => {
     console.log(isLoading);
     if (!isLoading) {
-      if (!appointment||!session) throw Error("No appountment or session")
+      if (!appointment || !session) {
+        console.log("no appointment of session");
+      }
     }
-  }, [isLoading,appointment,session]);
-
-
+  }, [isLoading, appointment, session]);
 
   const handleOpen = (appointment: Appointment) => {
     setSelectedAppointment(appointment);
@@ -76,7 +89,9 @@ const Appointments: React.FC = () => {
                   <TableCell>{m.patient_id}</TableCell>
 
                   {/* Date & Time */}
-                  <TableCell>{new Date(m.created_at).toLocaleString()}</TableCell>
+                  <TableCell>
+                    {new Date(m.created_at).toLocaleString()}
+                  </TableCell>
 
                   {/* Doctor ID */}
                   <TableCell>{m.doctor_id}</TableCell>
@@ -87,10 +102,7 @@ const Appointments: React.FC = () => {
                   {/* Action */}
                   {!isSmallScreen && (
                     <TableCell>
-                      <Button
-                        color="primary"
-                        onClick={() => handleOpen(m)}
-                      >
+                      <Button color="primary" onClick={() => handleOpen(m)}>
                         View
                       </Button>
                     </TableCell>
@@ -152,4 +164,3 @@ const Appointments: React.FC = () => {
 };
 
 export default Appointments;
-

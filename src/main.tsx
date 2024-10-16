@@ -15,11 +15,11 @@ export const theme = createTheme({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Provider>
+      <Provider>
+        <ThemeProvider theme={theme}>
           <App />
-        </Provider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </Provider>
     </BrowserRouter>
   </StrictMode>
 );
