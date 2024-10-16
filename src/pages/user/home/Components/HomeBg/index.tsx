@@ -29,15 +29,13 @@ export default function HomeBg() {
           >
             Book Appointment <br /> With Trusted Doctors
           </Typography>
-          <Typography
-            sx={{ marginBottom: "15px", display: "flex", fontSize: "15px" }}
-          >
+          <Box sx={{ marginBottom: "15px", display: "flex", fontSize: "15px" }}>
             <img src={groupProfiles} alt="" style={{ marginRight: "5px" }} />
-            <p>
+            <Typography>
               Simply browse through our extensive list of trusted doctors,
               schedule your appointment hassle-free.
-            </p>
-          </Typography>
+            </Typography>
+          </Box>
           <Button
             sx={{
               backgroundColor: "white",
