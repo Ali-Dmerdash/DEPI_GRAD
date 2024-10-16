@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Grid2, Typography, Box, Button } from "@mui/material";
 
+import aboutUsImage from "../../../assets/about_image.png";
 function Contact() {
   return (
     <>
@@ -20,7 +21,7 @@ function Contact() {
             <Box sx={{ p: 0, m: 0, overflow: "hidden" }}>
               <Box
                 component="img"
-                src="https://s3-alpha-sig.figma.com/img/79fa/190b/53fd734e629d556696524e05913f5529?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=O~VHP8-Osh~XWt9~giiOoMCvRz1C9XvHgjx1ot~W03SXK7ZYomyFqbXNRB1e6I-VFKK3aoa3iyISDCXPtNyOozf5-ryYRzKNdT9sav5wEZP~l3tCnrJ9ZaJ21EZWj7z1JRugG-mlmcPYoZvzeEqH7GK-pOrZmzd59WGjmydDigLpnDvtIubJVemWai2g~40br9Ph0hXCXYM8laCej7BzejxOUFmFNRBxYW0SDr4tHPYrvrQ7Bd3V3UHX9M-uxsJX3kglMHJzVmPdj3HJEUSDCmE1wiqsOCryQPqpQ-KmlHSg-CsZXUwlzDK3MW11~3Y868o3bt0kpetVmBvLh5uJdQ__"
+                src={aboutUsImage}
                 alt="Doctor consultation"
                 sx={{
                   clipPath: "inset(0 0 10% 0)",
