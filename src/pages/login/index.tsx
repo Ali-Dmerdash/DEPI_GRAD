@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
 import "./login.css";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
-
-import { TextFieldElement } from "react-hook-form-mui";
 import Joi from "joi";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { TextFieldElement } from "react-hook-form-mui";
 import { supabase } from "../../lib/supabase/clients";
-import { useEffect } from "react";
-import { useAuth } from "../../lib/context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
@@ -19,17 +17,18 @@ function Login() {
   const form = useForm<{ email: string; password: string }>({
     resolver: joiResolver(formSchema),
   });
-  const { session } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
   const onSubmit = form.handleSubmit(async (data) => {
-    console.log(data);
-    await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+      navigate("/home"); // Navigate to "/home" upon successful sign-in
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
   });
 
   return (

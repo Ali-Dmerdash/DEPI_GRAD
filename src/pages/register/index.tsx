@@ -1,23 +1,52 @@
-import { Container, Box, Typography, TextField, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import {
+  Container,
+  Box,
+  Typography,
+  Button,
+  InputAdornment,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { TextFieldElement } from "react-hook-form-mui";
+import {
+  RadioButtonGroup,
+  TextFieldElement,
+  PasswordElement,
+  PasswordRepeatElement,
+} from "react-hook-form-mui";
+import { DatePickerElement } from "react-hook-form-mui/date-pickers";
+import { DateFnsProvider } from "react-hook-form-mui/date-fns";
+
 import { joiResolver } from "@hookform/resolvers/joi";
 import { supabase } from "../../lib/supabase/clients";
-import Joi from "joi";
+import Joi, { ref } from "joi";
 
 const formSchema = Joi.object({
   fullname: Joi.string().required(),
   email: Joi.string().email({ tlds: false }).required(),
   password: Joi.string().required(),
+  repeatpassword: Joi.valid(ref("password")).messages({
+    "any.only": "The two passwords do not match",
+  }),
+  phone: Joi.string().required(),
+  gender: Joi.string().required(),
+  birthday: Joi.date().required(),
 });
 
 function Register() {
-  const form = useForm<{ fullname: string; email: string; password: string }>({
+  const form = useForm<{
+    phone: string;
+    gender: string;
+    birthday: string;
+    fullname: string;
+    email: string;
+    password: string;
+    repeatpassword: string;
+  }>({
     resolver: joiResolver(formSchema),
   });
 
+  const navigate = useNavigate();
   const onSubmit = form.handleSubmit(async (data) => {
     const userRes = await supabase.auth.signUp({
       email: data.email,
@@ -25,15 +54,30 @@ function Register() {
     });
 
     if (!userRes.data.user?.id) throw Error("failed to register user");
+    const ID: string = userRes.data.user.id;
 
     try {
       await supabase
         .from("profile")
-        .insert({ fullname: data.fullname, id: userRes.data.user.id })
+        .insert({ fullname: data.fullname, id: ID })
         .returns();
 
-      // todo: redirect to the page
-    } catch {}
+      await supabase
+        .from("patient")
+        .insert({
+          id: ID,
+          full_name: data.fullname,
+          phone: data.phone,
+          gender: data.gender,
+          birthday: data.birthday,
+          user_id: userRes.data.user.id,
+        })
+        .returns();
+
+      navigate("/login");
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
   });
 
   return (
@@ -80,7 +124,7 @@ function Register() {
               label="Email"
               name="email"
             />
-            <TextFieldElement
+            <PasswordElement
               control={form.control}
               margin="normal"
               required
@@ -90,6 +134,57 @@ function Register() {
               type="password"
               id="password"
             />
+            <PasswordRepeatElement
+              control={form.control}
+              passwordFieldName="password"
+              margin="normal"
+              required
+              fullWidth
+              name="repeatpassword"
+              label="Repeat Password"
+              type="password"
+              id="repeatpassword"
+            />
+            <TextFieldElement
+              control={form.control}
+              margin="normal"
+              required
+              fullWidth
+              name="phone"
+              label="Phone"
+              id="phone"
+              helperText="(+20) 1123456789"
+              slotProps={{
+                htmlInput: {
+                  maxLength: 10,
+                  inputMode: "numeric", // Brings up numeric keypad on mobile devices
+                  pattern: "[0-9]*",
+                },
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">(+20)</InputAdornment>
+                  ),
+                },
+              }}
+            />
+            <RadioButtonGroup
+              control={form.control}
+              name="gender"
+              required
+              row
+              options={[
+                { id: "1", label: "Male", value: "Male" },
+                { id: "2", label: "Female", value: "Female" },
+              ]}
+              label="Gender"
+              labelProps={{
+                sx: { margin: "normal" },
+                id: "gender",
+              }}
+            />
+
+
+
             <Button
               type="submit"
               fullWidth
@@ -118,3 +213,17 @@ function Register() {
 }
 
 export default Register;
+
+{/* <DateFnsProvider>
+<DatePickerElement
+  control={form.control}
+  name="birthday"
+  required
+  label="Birthday"
+  inputProps={{
+    fullWidth: true,
+    margin: "normal",
+    id: "birthday",
+  }}
+/>
+</DateFnsProvider> */}

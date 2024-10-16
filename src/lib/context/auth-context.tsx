@@ -17,7 +17,11 @@ interface AuthContextType {
   supabase: SupabaseClient;
   isLoading: boolean;
   profile: Database["public"]["Tables"]["profile"]["Row"] | null;
+  doctor: Database["public"]["Tables"]["doctor"]["Row"] | null;
+  patient: Database["public"]["Tables"]["patient"]["Row"] | null;
+  appointment: Database["public"]["Tables"]["appointment"]["Row"][] | null; // Make sure this is an array
   logout: () => Promise<void>;
+
 }
 
 // Create the AuthContext with default values
@@ -35,27 +39,55 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<
     Database["public"]["Tables"]["profile"]["Row"] | null
   >(null);
+  const [doctor, setDoctor] = useState<
+    Database["public"]["Tables"]["doctor"]["Row"] | null
+  >(null);
+  const [patient, setPatient] = useState<
+    Database["public"]["Tables"]["patient"]["Row"] | null
+  >(null);
+  const [appointment, setAppointment] = useState<
+    Database["public"]["Tables"]["appointment"]["Row"][] | null
+  >(null);
+
+
+
 
   // Logout function to sign the user out
   const logout = async () => {
     try {
-      console.log("Attempting to logout...");
       const { error } = await supabase.auth.signOut();
-      console.log("signOut called");
       if (error) {
         console.error("Error during logout:", error);
       } else {
         console.log("User successfully logged out.");
         setProfile(null);
         // Clear tokens from local storage if used
-        // localStorage.removeItem("sb-lllmoslobnckitvzjjwg-auth-token"); // Adjust key based on your storage setup
+        localStorage.removeItem("sb-lllmoslobnckitvzjjwg-auth-token"); // Adjust key based on your storage setup
       }
     } catch (err) {
-      console.error("Unexpected error during logout:", err);
+      console.error("Could not sign out", err);
     }
   };
-
+  
   useEffect(() => {
+
+
+    const fetchAppointments = async () => {
+      try {
+        const { data:appointmentData, error:appointmentError } = await supabase
+          .from('appointment')
+          .select('*');
+        if (appointmentError) {
+          console.error('Error fetching appointments:', appointmentError);
+          return;
+        }
+        console.error('got appointment');
+        setAppointment(appointmentData);
+        console.log(appointment);
+      } catch (err) {
+        console.error('Unexpected error:', err);
+      } 
+  }
     // Function to fetch the user profile
     const fetchUserProfile = async (userId: string) => {
       try {
@@ -70,10 +102,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setProfile(null);
         } else {
           setProfile(profileData);
-          console.log("Got profile:", profileData);
-          if (profileData.is_admin) {
-            console.log("Admin Account");
-          }
         }
       } catch (err) {
         console.error("Unexpected error fetching profile:", err);
@@ -96,6 +124,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSession(initialSession);
         if (initialSession) {
           await fetchUserProfile(initialSession.user.id);
+          await fetchAppointments();
         }
       } catch (err) {
         console.error("Unexpected error fetching session:", err);
@@ -105,92 +134,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     fetchInitialSession();
-
+    
     // Listen for changes to auth state
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, currentSession: Session | null) => {
-        console.log(`${isLoading} authchange`);
         setSession(currentSession);
         setLoading(true); // Start loading when auth state changes
-
+         console.log(currentSession);
         if (currentSession) {
           await fetchUserProfile(currentSession.user.id);
+          await fetchAppointments();
+          console.log(appointment);
         } else {
           setProfile(null);
         }
-
         setLoading(false); // End loading after processing auth state change
       }
     );
 
-    // const setData = async () => {
-    //   console.log(isLoading + " setdata");
-
-    //   const {
-    //     data: { session },
-    //     error,
-    //   } = await supabase.auth.getSession();
-    //   if (error) {
-    //     setLoading(false);
-    //     throw error;
-    //   }
-    //   setSession(session);
-
-    //   if (session) {
-    //     setLoading(false);
-    //     // get profile data
-    //     supabase
-    //       .from("profile")
-    //       .select()
-    //       .eq("id", session.user.id)
-    //       .single()
-    //       .then((data) => {
-    //         if (data) {
-    //           setProfile(data as any);
-    //           console.log(data);
-    //           console.log("got profile");
-    //         }
-    //       });
-    //   }
-    //   setLoading(false);
-    // };
-
-    // const { data: listener } = supabase.auth.onAuthStateChange(
-    //   (_event, session) => {
-    //     console.log(isLoading + " authchange");
-    //     setSession(session);
-
-    //     if (session) {
-    //       // get profile data
-    //       setLoading(false);
-    //       supabase
-    //         .from("profile")
-    //         .select()
-    //         .eq("id", session.user.id)
-    //         .single()
-    //         .then((data) => {
-    //           if (data) {
-    //             setProfile(data as any);
-    //             console.log(data);
-    //             console.log("got profile");
-    //           }
-    //         });
-    //     }
-    //     setLoading(false);
-    //   }
-    // );
-    // setData();
-
-    // Cleanup subscription on unmount
     return () => {
       authListener.subscription.unsubscribe();
-      // listener?.subscription.unsubscribe();
     };
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isLoading, session, supabase, profile, logout }}
+      value={{
+        isLoading,
+        session,
+        supabase,
+        profile,
+        patient,
+        doctor,
+        appointment,
+        logout
+
+      }}
     >
       {children}
     </AuthContext.Provider>

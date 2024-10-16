@@ -1,79 +1,46 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import { FaClipboardList } from "react-icons/fa";
 import {
-  Box,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-  Button,
-  useMediaQuery,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  Box, Typography, Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Paper, Button, useMediaQuery,
+  Dialog, DialogTitle, DialogContent, DialogActions
 } from "@mui/material";
+import { useAuth } from "../../../../../lib/context/auth-context";
 
-// Define types for appointments
 interface Appointment {
-  id: number;
-  patient: string;
-  patientAvatar: string;
-  doctor: string;
-  doctorAvatar: string;
-  age: number;
-  dateTime: string;
-  fees: string;
-  status: string;
+  id: string;          
+  patient_id: string;   
+  doctor_id: string;   
+  created_at: string;   
+  fees: number;        
 }
 
 const Appointments: React.FC = () => {
+  const { isLoading, appointment,session } = useAuth();
+  console.log(appointment);
+  console.log("Appointment from useAuth:", appointment);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
+  // const [appointments, setAppointments] = useState<Appointment[]>([]); 
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedAppointment, setSelectedAppointment] =
-    useState<Appointment | null>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null); 
 
-  // Handle modal open
+  useEffect(() => {
+    console.log(isLoading);
+    if (!isLoading) {
+      if (!appointment||!session) throw Error("No appountment or session")
+    }
+  }, [isLoading,appointment,session]);
+
+
+
   const handleOpen = (appointment: Appointment) => {
     setSelectedAppointment(appointment);
     setOpen(true);
   };
 
-  // Handle modal close
   const handleClose = () => {
     setOpen(false);
   };
-
-  // Example appointment data
-  const appointments: Appointment[] = [
-    {
-      id: 1,
-      patient: "John Doe",
-      patientAvatar: "https://randomuser.me/api/portraits/men/2.jpg",
-      doctor: "Dr. Smith",
-      doctorAvatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      age: 30,
-      dateTime: "3 Nov 2024, 12:30",
-      fees: "$50",
-      status: "Confirmed",
-    },
-    {
-      id: 2,
-      patient: "Jane Doe",
-      patientAvatar: "https://randomuser.me/api/portraits/women/2.jpg",
-      doctor: "Dr. Johnson",
-      doctorAvatar: "https://randomuser.me/api/portraits/women/1.jpg",
-      age: 28,
-      dateTime: "4 Nov 2024, 14:00",
-      fees: "$75",
-      status: "Confirmed",
-    },
-  ];
 
   return (
     <>
@@ -91,74 +58,38 @@ const Appointments: React.FC = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Patient</TableCell>
-                {!isSmallScreen && <TableCell>Age</TableCell>}
+                <TableCell>Appointment ID</TableCell>
+                <TableCell>Patient ID</TableCell>
                 <TableCell>Date & Time</TableCell>
-                <TableCell>Doctor</TableCell>
+                <TableCell>Doctor ID</TableCell>
                 {!isSmallScreen && <TableCell>Fees</TableCell>}
                 {!isSmallScreen && <TableCell>Action</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
-              {appointments.map((appointment) => (
-                <TableRow key={appointment.id} hover>
-                  {/* Patient */}
-                  <TableCell>
-                    <Box
-                      display="flex"
-                      flexDirection={isSmallScreen ? "column" : "row"}
-                      alignItems="center"
-                    >
-                      <Avatar
-                        src={appointment.patientAvatar}
-                        alt="Patient Avatar"
-                        sx={{
-                          mr: isSmallScreen ? 0 : 2,
-                          mb: isSmallScreen ? 1 : 0,
-                        }}
-                      />
-                      <Typography fontWeight="bold">
-                        {appointment.patient}
-                      </Typography>
-                    </Box>
-                  </TableCell>
+              {appointment?.map((m) => (
+                <TableRow key={m.id} hover>
+                  {/* Appointment ID */}
+                  <TableCell>{m.id}</TableCell>
 
-                  {/* Age */}
-                  {!isSmallScreen && <TableCell>{appointment.age}</TableCell>}
+                  {/* Patient ID */}
+                  <TableCell>{m.patient_id}</TableCell>
 
                   {/* Date & Time */}
-                  <TableCell>{appointment.dateTime}</TableCell>
+                  <TableCell>{new Date(m.created_at).toLocaleString()}</TableCell>
 
-                  {/* Doctor */}
-                  <TableCell>
-                    <Box
-                      display="flex"
-                      flexDirection={isSmallScreen ? "column" : "row"}
-                      alignItems="center"
-                    >
-                      <Avatar
-                        src={appointment.doctorAvatar}
-                        alt="Doctor Avatar"
-                        sx={{
-                          mr: isSmallScreen ? 0 : 2,
-                          mb: isSmallScreen ? 1 : 0,
-                        }}
-                      />
-                      <Typography fontWeight="bold">
-                        {appointment.doctor}
-                      </Typography>
-                    </Box>
-                  </TableCell>
+                  {/* Doctor ID */}
+                  <TableCell>{m.doctor_id}</TableCell>
 
                   {/* Fees */}
-                  {!isSmallScreen && <TableCell>{appointment.fees}</TableCell>}
+                  {!isSmallScreen && <TableCell>{m.fees}</TableCell>}
 
                   {/* Action */}
                   {!isSmallScreen && (
                     <TableCell>
                       <Button
                         color="primary"
-                        onClick={() => handleOpen(appointment)}
+                        onClick={() => handleOpen(m)}
                       >
                         View
                       </Button>
@@ -176,17 +107,14 @@ const Appointments: React.FC = () => {
           <DialogContent>
             {selectedAppointment && (
               <Box display="flex" flexDirection="column" alignItems="center">
-                {/* Patient Info */}
-                <Avatar
-                  src={selectedAppointment.patientAvatar}
-                  alt="Patient Avatar"
-                  sx={{ width: 80, height: 80, mb: 2 }}
-                />
+                {/* Appointment ID */}
                 <Typography variant="h6" fontWeight="bold">
-                  {selectedAppointment.patient}
+                  Appointment ID: {selectedAppointment.id}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Age: {selectedAppointment.age}
+
+                {/* Patient Info */}
+                <Typography variant="h6" fontWeight="bold">
+                  Patient ID: {selectedAppointment.patient_id}
                 </Typography>
 
                 {/* Date & Time */}
@@ -194,17 +122,12 @@ const Appointments: React.FC = () => {
                   Date & Time
                 </Typography>
                 <Typography variant="body1">
-                  {selectedAppointment.dateTime}
+                  {new Date(selectedAppointment.created_at).toLocaleString()}
                 </Typography>
 
                 {/* Doctor Info */}
-                <Avatar
-                  src={selectedAppointment.doctorAvatar}
-                  alt="Doctor Avatar"
-                  sx={{ width: 80, height: 80, mt: 4, mb: 2 }}
-                />
-                <Typography variant="h6" fontWeight="bold">
-                  {selectedAppointment.doctor}
+                <Typography variant="h6" fontWeight="bold" mt={2}>
+                  Doctor ID: {selectedAppointment.doctor_id}
                 </Typography>
 
                 {/* Fees */}
@@ -229,3 +152,4 @@ const Appointments: React.FC = () => {
 };
 
 export default Appointments;
+
