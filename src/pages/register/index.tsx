@@ -70,7 +70,7 @@ function Register() {
           phone: data.phone,
           gender: data.gender,
           birthday: data.birthday,
-          user_id: userRes.data.user.id,
+          user_id: ID,
         })
         .returns();
 
@@ -183,7 +183,19 @@ function Register() {
               }}
             />
 
-
+            <DateFnsProvider>
+              <DatePickerElement
+                control={form.control}
+                name="birthday"
+                required
+                label="Birthday"
+                inputProps={{
+                  fullWidth: true,
+                  margin: "normal",
+                  id: "birthday",
+                }}
+              />
+            </DateFnsProvider>
 
             <Button
               type="submit"
@@ -213,17 +225,3 @@ function Register() {
 }
 
 export default Register;
-
-{/* <DateFnsProvider>
-<DatePickerElement
-  control={form.control}
-  name="birthday"
-  required
-  label="Birthday"
-  inputProps={{
-    fullWidth: true,
-    margin: "normal",
-    id: "birthday",
-  }}
-/>
-</DateFnsProvider> */}
