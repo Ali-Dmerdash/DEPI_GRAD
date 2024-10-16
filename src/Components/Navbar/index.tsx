@@ -14,6 +14,7 @@ import NavLinks from "./Components/NavLinks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SegmentIcon from "@mui/icons-material/Segment";
 import UserDropdownMenu from "../UserDropdownMenu";
+import { useAuth } from "../../lib/context/auth-context";
 
 export default function Navbar() {
   let navLinks = [
@@ -23,7 +24,7 @@ export default function Navbar() {
     { name: "CONTACT", path: "/contact" },
   ];
   let navigate = useNavigate();
-
+  const { profile } = useAuth();
   const [activePath, setActivePath] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isDrawerOpen, setDrawerOpen] = useState(false); // State for mobile drawer
@@ -82,24 +83,26 @@ export default function Navbar() {
               <NavLinks key={i} link={link} setActivePath={setActivePath} />
             ))}
           </List>
-          <Button
-            sx={{
-              border: "1px var(--border-color) solid",
-              borderRadius: "30px",
-              color: "var(--primary--color)",
-              fontSize: "10px",
-            }}
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-          >
-            Admin Dashboard
-          </Button>
+          {profile?.is_admin ? (
+            <Button
+              sx={{
+                border: "1px var(--border-color) solid",
+                borderRadius: "30px",
+                color: "var(--primary--color)",
+                fontSize: "10px",
+              }}
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              Admin Dashboard
+            </Button>
+          ) : null}
         </Box>
 
         {/* User Dropdown / Create Account */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {!isLoggedIn ? (
+          {!profile ? (
             <Button
               sx={{
                 borderRadius: "30px",
@@ -143,6 +146,7 @@ export default function Navbar() {
               <NavLinks key={i} link={link} setActivePath={setActivePath} />
             ))}
           </List>
+
           <Button
             sx={{
               border: "1px var(--border-color) solid",
