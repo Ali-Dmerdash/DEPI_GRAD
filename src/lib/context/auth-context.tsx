@@ -17,8 +17,8 @@ interface AuthContextType {
   doctor: Database["public"]["Tables"]["doctor"]["Row"][] | null;
   patients: Database["public"]["Tables"]["patient"]["Row"][] | null;
   patient: Database["public"]["Tables"]["patient"]["Row"] | null;
-
   appointment: Database["public"]["Tables"]["appointment"]["Row"][] | null;
+  userAppointments: Database["public"]["Tables"]["appointment"]["Row"][] | null;
   logout: () => Promise<void>;
 }
 
@@ -41,6 +41,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [patients, setPatients] = useState<Patient[] | null>(null);
   const [appointment, setAppointment] = useState<Appointment[] | null>(null);
+  const [userAppointments, setUserApppointments] = useState<
+    Appointment[] | null
+  >(null);
 
   // Fetch User Profile
   const fetchUserProfile = (userId: string): Promise<Profile | null> => {
@@ -59,7 +62,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         })
     );
   };
-
+  const fetchUserAppointments = (
+    userId: string
+  ): Promise<Appointment[] | null> => {
+    return Promise.resolve(
+      supabase
+        .from("appointment")
+        .select("*")
+        .eq("patient_id", userId)
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Appointments fetch error:", error);
+            return null;
+          }
+          return data;
+        })
+    );
+  };
   // Fetch Appointments
   const fetchAppointments = (): Promise<Appointment[] | null> => {
     return Promise.resolve(
@@ -139,6 +158,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       fetchDoctor(),
       fetchPatient(currentSession.user.id),
       fetchAllPatients(),
+      fetchUserAppointments(currentSession.user.id),
     ])
       .then(
         ([
@@ -200,6 +220,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else if (event === "SIGNED_OUT") {
         setProfile(null);
         setAppointment(null);
+        setPatients(null);
+        setUserApppointments(null);
         setDoctor(null);
         setPatient(null);
         setLoading(false);
@@ -224,6 +246,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       .finally(() => {
         setProfile(null);
         setAppointment(null);
+        setUserApppointments(null);
+        setPatients(null);
         setDoctor(null);
         setPatient(null);
         setLoading(false);
@@ -239,6 +263,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     patient,
     patients,
     appointment,
+    userAppointments,
     logout,
   };
 
