@@ -1,63 +1,79 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid2,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Grid2, Link, Typography } from "@mui/material";
 import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { supabase } from "../../../lib/supabase/clients";
-import { useState } from "react";
-type Props = {};
 
-const AddDoctor = (props: Props) => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [degree, setDegree] = useState("");
-  const [experience, setExperience] = useState(0);
-  const [fees, setFees] = useState(0);
-  const [specialty, setSpecialty] = useState("");
-  const [about, setAbout] = useState("");
-  const [address_sec, setAddressSec] = useState("");
+import {
+  PasswordElement,
+  TextFieldElement,
+  useForm,
+} from "react-hook-form-mui";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi, { ref } from "joi";
 
-  const addDoctorData = async () => {
-    const { data, error } = await supabase
-      .from("doctor")
-      .insert([
-        {
-          name: name,
-          address: address,
-          degree: degree,
-          experience: experience,
-          fees: fees,
-          specialty: specialty,
-          about: about,
-          address_sec: address_sec,
-        },
-      ])
-      .select();
+const formSchema = Joi.object({
+  fullname: Joi.string().required(),
+  email: Joi.string().email({ tlds: false }).required(),
+  password: Joi.string().required(),
+  experience: Joi.number().required(),
+  fees: Joi.number().required(),
+  specialty: Joi.string().required(),
+  about: Joi.string().required(),
+  address: Joi.string().required(),
+  degree: Joi.string().required(),
+  address_sec: Joi.string(),
+});
 
-    if (error) {
-      console.error("cannot add doctor:", error);
-    } else {
-      alert("Doctor added successfully:");
+function AddDoctor() {
+  const form = useForm<{
+    email: string;
+    password: string;
+    fullname: string;
+    address: string;
+    degree: string;
+    experience: number;
+    fees: number;
+    specialty: string;
+    about: string;
+    address_sec: string;
+  }>({
+    resolver: joiResolver(formSchema),
+  });
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    console.log("first");
+    const userRes = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (!userRes.data.user?.id) throw Error("failed to register user");
+    const ID: string = userRes.data.user.id;
+
+    try {
+      await supabase
+        .from("doctor")
+        .insert({
+          id: ID,
+          user_id: ID,
+          name: data.fullname,
+          address: data.address,
+          degree: data.degree,
+          experience: data.experience,
+          fees: data.fees,
+          specialty: data.specialty,
+          about: data.about,
+          address_sec: data.address_sec,
+        })
+        .returns();
+    } catch (error) {
+      console.error("Unexpected error:", error);
     }
+  });
 
-    setName("");
-    setAddress("");
-    setDegree("");
-    setExperience(0);
-    setFees(0);
-    setSpecialty("");
-    setAbout("");
-    setAddressSec("");
-  };
   return (
     <Container>
-      <Box sx={{ boxShadow: 2, mb: 2 }} component="form">
+      <Box sx={{ boxShadow: 2, mb: 2 }}>
         <Typography variant="h5">Add Doctor</Typography>
         <Box>
           <Box>
@@ -69,170 +85,138 @@ const AddDoctor = (props: Props) => {
             </Link>
           </Box>
         </Box>
-        <Grid2
-          sx={{
-            marginTop: "10px",
-          }}
-          container
-          spacing={7}
-        >
-          <Grid2 size={{ lg: 7, sm: 12 }}>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Doctor Name</Typography>
-              <TextField
+
+        <Box component="form" onSubmit={onSubmit}>
+          <Grid2
+            sx={{
+              marginTop: "10px",
+            }}
+            container
+            spacing={7}
+          >
+            <Grid2 size={{ lg: 7, sm: 12 }}>
+              <Box sx={{ marginTop: "3px" }}>
+                <Typography component="label">Doctor Name</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="fullname"
+                  label="Doctor Name"
+                  required
+                />
+              </Box>
+
+              <Box sx={{ marginTop: "3px" }}>
+                <Typography component="label">Doctor Email</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="email"
+                  label="Doctor Email"
+                  type="email"
+                  required
+                />
+              </Box>
+
+              <Box sx={{ marginTop: "3px" }}>
+                <Typography component="label">Doctor Password</Typography>
+                <PasswordElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="password"
+                  label="Doctor Password"
+                  type="password"
+                  required
+                />
+              </Box>
+
+              <Box sx={{ marginTop: "3px" }}>
+                <Typography component="label">Experience (in years)</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="experience"
+                  label="Experience (in years)"
+                  type="number"
+                  required
+                />
+              </Box>
+
+              <Box sx={{ marginTop: "3px" }}>
+                <Typography component="label">Fees</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="fees"
+                  label="Fees"
+                  type="number"
+                  required
+                />
+              </Box>
+
+              <Box sx={{ marginTop: "3px" }}>
+                <Typography component="label">About</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="about"
+                  label="About"
+                  required
+                />
+              </Box>
+            </Grid2>
+
+            <Grid2 size={{ lg: 5, sm: 12 }}>
+              <Box>
+                <Typography component="label">Specialty</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="specialty"
+                  label="Specialty"
+                  required
+                />
+              </Box>
+
+              <Box sx={{ marginTop: "10px" }}>
+                <Typography component="label">Address</Typography>
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="address"
+                  label="Address 1"
+                  required
+                />
+                <TextFieldElement
+                  control={form.control}
+                  sx={{ marginTop: "10px", width: "100%" }}
+                  name="address_sec"
+                  label="Address 2"
+                />
+              </Box>
+
+              <Box
                 sx={{
-                  marginTop: "10px",
-                  width: "100%",
-                }}
-                type="text"
-                placeholder="Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Doctor Email</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Email"
-              />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Doctor Password</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Password"
-              />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Experience (in years)</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="number"
-                placeholder="Number of years"
-                onChange={(e) => {
-                  setExperience(Number(e.target.value));
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Fees</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="number"
-                placeholder="Fees"
-                onChange={(e) => {
-                  setFees(Number(e.target.value));
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">About</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="About"
-                onChange={(e) => {
-                  setAbout(e.target.value);
-                }}
-              />
-            </Box>
-          </Grid2>
-          <Grid2 size={{ lg: 5, sm: 12 }}>
-            <Box>
-              <Typography component="label">Specialty</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Specialty"
-                onChange={(e) => {
-                  setSpecialty(e.target.value);
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "10px" }}>
-              <Typography component="label">Education</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Education"
-                onChange={(e) => {
-                  setDegree(e.target.value);
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "10px" }}>
-              <Typography component="label">Address</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Address 1"
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-              />
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Address 2"
-                onChange={(e) => {
-                  setAddressSec(e.target.value);
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                marginTop: "20px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                variant="contained"
-                sx={{ width: "100%", borderRadius: "20px" }}
-                onClick={() => {
-                  addDoctorData();
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                Add Doctor
-              </Button>
-            </Box>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ width: "100%", borderRadius: "20px" }}
+                >
+                  Add Doctor
+                </Button>
+              </Box>
+            </Grid2>
           </Grid2>
-        </Grid2>
+        </Box>
       </Box>
     </Container>
   );
-};
+}
 
 export default AddDoctor;
