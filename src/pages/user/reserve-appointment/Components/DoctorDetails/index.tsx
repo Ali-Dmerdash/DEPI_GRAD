@@ -4,7 +4,8 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import InfoIcon from "@mui/icons-material/Info";
 import docImage from "../../../../../assets/img/doctors/file (5) 1.svg";
 
-export default function DoctorDetails() {
+export default function DoctorDetails({ doctor }: any) {
+  console.log(doctor);
   return (
     <Grid2 container>
       <Grid2
@@ -32,10 +33,10 @@ export default function DoctorDetails() {
           }}
         >
           <Typography variant="h4" sx={{ marginBottom: "10px" }}>
-            Dr. Richard James <VerifiedIcon sx={{ color: "#0016E1" }} />
+            {doctor.name} <VerifiedIcon sx={{ color: "#0016E1" }} />
           </Typography>
           <Typography sx={{ marginBottom: "10px" }}>
-            MBBS - General Physician
+            {doctor.specialty}
           </Typography>
           <Typography
             sx={{
@@ -49,16 +50,9 @@ export default function DoctorDetails() {
               sx={{ color: "black", fontSize: "20px", marginLeft: "5px" }}
             />
           </Typography>
-          <Typography sx={{ marginBottom: "10px" }}>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et velit
-            expedita ad ipsam molestiae, tempora, aperiam assumenda laudantium
-            dolor, nemo nesciunt commodi adipisci ea? Mollitia iste corrupti qui
-            laborum quae saepe atque inventore molestiae laboriosam.
-            Voluptatibus doloribus nesciunt nulla doloremque? Nam repellat quod
-            laudantium. Optio corrupti reiciendis voluptatem magni blanditiis.
-          </Typography>
+          <Typography sx={{ marginBottom: "10px" }}>{doctor.about}</Typography>
           <Typography sx={{ fontSize: "20px", fontWeight: "500" }}>
-            Appointment fee: $50
+            Appointment fees: {doctor.fees}
           </Typography>
         </Box>
       </Grid2>

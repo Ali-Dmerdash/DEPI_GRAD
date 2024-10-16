@@ -16,7 +16,6 @@ import Doctors from "./pages/user/doctors";
 import Home from "./pages/user/home";
 import Login from "./pages/login";
 import Profile from "./pages/user/profile";
-import Register from "./pages/register";
 import MyAppointment from "./pages/user/user-appointment";
 import Error from "./pages/error";
 import Dashboard from "./pages/admin/admin-dashboard";
@@ -26,6 +25,9 @@ import ListDoctors from "./pages/user/home/Components/listDoctors/index.";
 import AdminLayout from "./layouts/adminlayout";
 import UserLayout from "./layouts/userlayout";
 import ProtectedRoute from "./lib/protectedroute/protected-route";
+import Register from "./pages/Register";
+import { supabase } from "./lib/supabase/clients";
+import DisplayDoctor from "./Components/DisplayDoctor/DisplayDoctor";
 
 function App() {
   return (
@@ -44,7 +46,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
-              <Route path="/appointment" element={<Appointment />} />
+              <Route path="/appointment/:id" element={<Appointment />} />
               <Route path="/userappointment" element={<MyAppointment />} />
             </Route>
           </Route>
@@ -55,6 +57,10 @@ function App() {
               <Route
                 path="/dashboard/all-appointments"
                 element={<Appointments />}
+              />
+              <Route
+                path="/dashboard/displayDoctor"
+                element={<DisplayDoctor />}
               />
               <Route path="/dashboard/all-doctors" element={<ListDoctors />} />
             </Route>

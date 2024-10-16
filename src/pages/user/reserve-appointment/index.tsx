@@ -3,8 +3,29 @@ import React, { useEffect, useState } from "react";
 import AppointmentDays from "./Components/index";
 import AppointmentHour from "./Components/AppointmentHour";
 import DoctorDetails from "./Components/DoctorDetails";
+import { useParams } from "react-router-dom";
+import { supabase } from "../../../lib/supabase/clients";
 
 export default function Appointment() {
+  let { id }: any = useParams();
+  const [doctor, setDoctor] = useState({});
+
+  useEffect(() => {
+    getDoctor();
+  }, [id]);
+
+  async function getDoctor() {
+    let { data: doctor, error }: any = await supabase
+      .from("doctor")
+      .select("*")
+      .eq("id", id);
+    if (error) {
+      console.log("doctor not found");
+    } else {
+      setDoctor(doctor[0]);
+    }
+  }
+
   let schedules = [
     {
       day: "Sun",
@@ -63,7 +84,7 @@ export default function Appointment() {
     <>
       <Box sx={{ marginTop: "30px", minHeight: "100vh" }}>
         <Stack>
-          <DoctorDetails />
+          <DoctorDetails doctor={doctor} />
           <Grid2 container>
             <Grid2 size={{ md: 3, xs: 0 }}></Grid2>
             <Grid2 size={{ md: 9, xs: 12 }}>

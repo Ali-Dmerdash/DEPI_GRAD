@@ -9,9 +9,52 @@ import {
 } from "@mui/material";
 import "./AddDoctors.css";
 import { IoPersonCircleSharp } from "react-icons/io5";
+import { supabase } from "../../../lib/supabase/clients";
+import { useState } from "react";
 type Props = {};
 
 const AddDoctor = (props: Props) => {
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [degree, setDegree] = useState("");
+  const [experience, setExperience] = useState(0);
+  const [fees, setFees] = useState(0);
+  const [specialty, setSpecialty] = useState("");
+  const [about, setAbout] = useState("");
+  const [address_sec, setAddressSec] = useState("");
+
+  const addDoctorData = async () => {
+    const { data, error } = await supabase
+      .from("doctor")
+      .insert([
+        {
+          name: name,
+          address: address,
+          degree: degree,
+          experience: experience,
+          fees: fees,
+          specialty: specialty,
+          about: about,
+          address_sec: address_sec,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error("cannot add doctor:", error);
+    } else {
+      alert("Doctor added successfully:");
+    }
+
+    setName("");
+    setAddress("");
+    setDegree("");
+    setExperience(0);
+    setFees(0);
+    setSpecialty("");
+    setAbout("");
+    setAddressSec("");
+  };
   return (
     <Container>
       <Box sx={{ boxShadow: 2, mb: 2 }} component="form">
@@ -43,6 +86,9 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="text"
                 placeholder="Name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
             </Box>
             <Box sx={{ marginTop: "3px" }}>
@@ -76,6 +122,9 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="number"
                 placeholder="Number of years"
+                onChange={(e) => {
+                  setExperience(Number(e.target.value));
+                }}
               />
             </Box>
             <Box sx={{ marginTop: "3px" }}>
@@ -87,6 +136,23 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="number"
                 placeholder="Fees"
+                onChange={(e) => {
+                  setFees(Number(e.target.value));
+                }}
+              />
+            </Box>
+            <Box sx={{ marginTop: "3px" }}>
+              <Typography component="label">About</Typography>
+              <TextField
+                sx={{
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+                type="text"
+                placeholder="About"
+                onChange={(e) => {
+                  setAbout(e.target.value);
+                }}
               />
             </Box>
           </Grid2>
@@ -100,6 +166,9 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="text"
                 placeholder="Specialty"
+                onChange={(e) => {
+                  setSpecialty(e.target.value);
+                }}
               />
             </Box>
             <Box sx={{ marginTop: "10px" }}>
@@ -111,6 +180,9 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="text"
                 placeholder="Education"
+                onChange={(e) => {
+                  setDegree(e.target.value);
+                }}
               />
             </Box>
             <Box sx={{ marginTop: "10px" }}>
@@ -122,6 +194,9 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="text"
                 placeholder="Address 1"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
               />
               <TextField
                 sx={{
@@ -130,6 +205,9 @@ const AddDoctor = (props: Props) => {
                 }}
                 type="text"
                 placeholder="Address 2"
+                onChange={(e) => {
+                  setAddressSec(e.target.value);
+                }}
               />
             </Box>
             <Box
@@ -143,6 +221,9 @@ const AddDoctor = (props: Props) => {
               <Button
                 variant="contained"
                 sx={{ width: "100%", borderRadius: "20px" }}
+                onClick={() => {
+                  addDoctorData();
+                }}
               >
                 Add Doctor
               </Button>
