@@ -183,19 +183,7 @@ function Register() {
               }}
             />
 
-            <DateFnsProvider>
-              <DatePickerElement
-                control={form.control}
-                name="birthday"
-                required
-                label="Birthday"
-                inputProps={{
-                  fullWidth: true,
-                  margin: "normal",
-                  id: "birthday",
-                }}
-              />
-            </DateFnsProvider>
+
 
             <Button
               type="submit"
@@ -225,3 +213,17 @@ function Register() {
 }
 
 export default Register;
+
+{/* <DateFnsProvider>
+<DatePickerElement
+  control={form.control}
+  name="birthday"
+  required
+  label="Birthday"
+  inputProps={{
+    fullWidth: true,
+    margin: "normal",
+    id: "birthday",
+  }}
+/>
+</DateFnsProvider> */}
