@@ -2,7 +2,10 @@ import React from "react";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import doctorImg from "../../../assets/doctor1.png";
 import AppointmentTile from "./AppointmentTile";
+import { useAuth } from "../../../lib/context/auth-context";
 const MyAppointment: React.FC = () => {
+  const { userAppointments } = useAuth();
+  console.log(userAppointments);
   return (
     <>
       <Box sx={{}}>

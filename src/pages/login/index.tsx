@@ -21,11 +21,15 @@ function Login() {
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      await supabase.auth.signInWithPassword({
+      const userRes = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
-      navigate("/home"); // Navigate to "/home" upon successful sign-in
+      if (!userRes.error) {
+        navigate("/home");
+      } else {
+        alert("Email or Password is incorrect");
+      }
     } catch (error) {
       console.error("Unexpected error:", error);
     }

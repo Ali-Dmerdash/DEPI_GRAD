@@ -1,238 +1,333 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid2,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
-import "./AddDoctors.css";
+import { Box, Button, Container, Grid2, Link, Typography } from "@mui/material";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { supabase } from "../../../lib/supabase/clients";
-import { useState } from "react";
-type Props = {};
+import {
+  PasswordElement,
+  TextFieldElement,
+  useForm,
+} from "react-hook-form-mui";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
+import { useState, useRef } from "react";
 
-const AddDoctor = (props: Props) => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [degree, setDegree] = useState("");
-  const [experience, setExperience] = useState(0);
-  const [fees, setFees] = useState(0);
-  const [specialty, setSpecialty] = useState("");
-  const [about, setAbout] = useState("");
-  const [address_sec, setAddressSec] = useState("");
+// Joi schema for form validation
+const addDoctorSchema = Joi.object({
+  fullname: Joi.string().required(),
+  email: Joi.string().email({ tlds: false }).required(),
+  password: Joi.string().required(),
+  experience: Joi.number().required(),
+  fees: Joi.number().required(),
+  specialty: Joi.string().required(),
+  about: Joi.string().required(),
+  address: Joi.string().required(),
+  degree: Joi.string().required(),
+  address_sec: Joi.string(),
+  image: Joi.any().required(), // Make image required
+});
 
-  const addDoctorData = async () => {
-    const { data, error } = await supabase
-      .from("doctor")
-      .insert([
-        {
-          name: name,
-          address: address,
-          degree: degree,
-          experience: experience,
-          fees: fees,
-          specialty: specialty,
-          about: about,
-          address_sec: address_sec,
-        },
-      ])
-      .select();
+function AddDoctor() {
+  // Initializing the form with react-hook-form-mui and Joi validation
+  const addDoctorform = useForm<{
+    email: string;
+    password: string;
+    fullname: string;
+    address: string;
+    degree: string;
+    experience: number;
+    fees: number;
+    specialty: string;
+    about: string;
+    address_sec: string;
+    image: File | null;
+  }>({
+    resolver: joiResolver(addDoctorSchema),
+  });
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Handle image selection
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Show image preview
+      addDoctorform.setValue("image", file); // Set image in form data
+    }
+  };
+
+  // Trigger file input click
+  const handleImageUploadClick = () => {
+    fileInputRef.current?.click(); // Trigger file input click
+  };
+
+  // Upload image to Supabase Storage
+  const uploadImageToSupabase = async (file: File, doctorId: string) => {
+    const fileName = `doctor-images/${doctorId}.${file.name.split(".").pop()}`; // Use the doctorId as the filename, preserve file extension
+    const { data, error } = await supabase.storage
+      .from("image") // Ensure you have a "doctor-pictures" bucket in Supabase
+      .upload(fileName, file);
 
     if (error) {
-      console.error("cannot add doctor:", error);
-    } else {
-      alert("Doctor added successfully:");
+      console.error("Error uploading image:", error.message);
+      throw new Error("Image upload failed");
     }
 
-    setName("");
-    setAddress("");
-    setDegree("");
-    setExperience(0);
-    setFees(0);
-    setSpecialty("");
-    setAbout("");
-    setAddressSec("");
+    // Return the path of the uploaded file
+    return data?.path;
   };
+
+  // Handle form submission
+  const onSubmit = addDoctorform.handleSubmit(async (data) => {
+    console.log("Form Submitted:", data); // Debug log to verify submission
+
+    // Step 1: Sign up the user in Supabase
+    const userRes = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (!userRes.data.user?.id) throw Error("Failed to register user");
+    const ID: string = userRes.data.user.id;
+
+    try {
+      if (imageFile) {
+        // Step 2: Insert into the profile table
+        await supabase.from("profile").insert({
+          id: ID,
+          fullname: data.fullname,
+        });
+
+        // Step 4: Upload the image using the doctor's ID
+
+        const imagePath = await uploadImageToSupabase(imageFile, ID);
+        console.log("Image uploaded to path:", imagePath);
+
+        // Step 3: Insert into the doctor table along with the image path
+        await supabase
+          .from("doctor")
+          .insert({
+            id: ID,
+            user_id: ID,
+            name: data.fullname,
+            address: data.address,
+            degree: data.degree,
+            experience: data.experience,
+            fees: data.fees,
+            specialty: data.specialty,
+            about: data.about,
+            address_sec: data.address_sec,
+            image: imagePath, // Store the image URL in the doctor table
+          })
+          .returns();
+
+        console.log("Doctor added successfully.");
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  });
+
   return (
-    <Container>
-      <Box sx={{ boxShadow: 2, mb: 2 }} component="form">
-        <Typography variant="h5">Add Doctor</Typography>
+    <Box sx={{ display: "flex", flexDirection: "row", minHeight: "100vh" }}>
+      <Container
+        sx={{
+          marginTop: "20px",
+          padding: "20px",
+          boxShadow: 2,
+          flex: "1", // Takes up available space
+        }}
+      >
+        <Typography variant="h5" sx={{ marginBottom: "20px" }}>
+          Add Doctor
+        </Typography>
+
         <Box>
-          <Box>
-            <IoPersonCircleSharp style={{ fontSize: "7rem" }} />
-          </Box>
-          <Box>
-            <Link href="#" underline="none" color="black">
+          {/* If imagePreview exists, display the uploaded image, else show the icon */}
+          {imagePreview ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <img
+                src={imagePreview}
+                alt="Doctor preview"
+                style={{
+                  width: "150px",
+                  height: "150px",
+                  objectFit: "cover",
+                  borderRadius: "50%", // Rounded style for the image
+                }}
+              />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <IoPersonCircleSharp
+                style={{ fontSize: "7rem", cursor: "pointer" }}
+                onClick={handleImageUploadClick}
+              />
+            </Box>
+          )}
+
+          <Box sx={{ textAlign: "center", marginBottom: "20px" }}>
+            <Link
+              href="#"
+              underline="none"
+              color="black"
+              onClick={handleImageUploadClick}
+            >
               Upload Doctor Picture
             </Link>
           </Box>
         </Box>
-        <Grid2
-          sx={{
-            marginTop: "10px",
-          }}
-          container
-          spacing={7}
-        >
-          <Grid2 size={{ lg: 7, sm: 12 }}>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Doctor Name</Typography>
-              <TextField
-                sx={{
-                  marginTop: "10px",
-                  width: "100%",
-                }}
-                type="text"
-                placeholder="Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
+
+        {/* Hidden file input for image upload */}
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleImageChange}
+        />
+
+        <Box component="form" onSubmit={onSubmit}>
+          <Grid2 container spacing={3}>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="fullname"
+                label="Doctor Name"
+                required
+                fullWidth
               />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Doctor Email</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Email"
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="degree"
+                label="Degree"
+                required
+                fullWidth
               />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Doctor Password</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Password"
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="email"
+                label="Doctor Email"
+                type="email"
+                required
+                fullWidth
               />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Experience (in years)</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="specialty"
+                label="Specialty"
+                required
+                fullWidth
+              />
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <PasswordElement
+                size="small"
+                control={addDoctorform.control}
+                name="password"
+                label="Doctor Password"
+                required
+                fullWidth
+              />
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="address"
+                label="Address 1"
+                required
+                fullWidth
+              />
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="experience"
+                label="Experience (in years)"
                 type="number"
-                placeholder="Number of years"
-                onChange={(e) => {
-                  setExperience(Number(e.target.value));
-                }}
+                required
+                fullWidth
               />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">Fees</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="address_sec"
+                label="Address 2"
+                fullWidth
+              />
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="fees"
+                label="Fees"
                 type="number"
-                placeholder="Fees"
-                onChange={(e) => {
-                  setFees(Number(e.target.value));
-                }}
+                required
+                fullWidth
               />
-            </Box>
-            <Box sx={{ marginTop: "3px" }}>
-              <Typography component="label">About</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="About"
-                onChange={(e) => {
-                  setAbout(e.target.value);
-                }}
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextFieldElement
+                size="small"
+                control={addDoctorform.control}
+                name="about"
+                label="About"
+                required
+                fullWidth
               />
-            </Box>
-          </Grid2>
-          <Grid2 size={{ lg: 5, sm: 12 }}>
-            <Box>
-              <Typography component="label">Specialty</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Specialty"
-                onChange={(e) => {
-                  setSpecialty(e.target.value);
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "10px" }}>
-              <Typography component="label">Education</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Education"
-                onChange={(e) => {
-                  setDegree(e.target.value);
-                }}
-              />
-            </Box>
-            <Box sx={{ marginTop: "10px" }}>
-              <Typography component="label">Address</Typography>
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Address 1"
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-              />
-              <TextField
-                sx={{
-                  width: "100%",
-                  marginTop: "10px",
-                }}
-                type="text"
-                placeholder="Address 2"
-                onChange={(e) => {
-                  setAddressSec(e.target.value);
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                marginTop: "20px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
               <Button
+                type="submit"
                 variant="contained"
-                sx={{ width: "100%", borderRadius: "20px" }}
-                onClick={() => {
-                  addDoctorData();
-                }}
+                fullWidth
+                sx={{ borderRadius: "20px", backgroundColor: "#1565C0" }}
               >
                 Add Doctor
               </Button>
-            </Box>
+            </Grid2>
           </Grid2>
-        </Grid2>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
-};
+}
 
 export default AddDoctor;

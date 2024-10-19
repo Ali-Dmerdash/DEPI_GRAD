@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Grid2, Typography, Box, Button } from "@mui/material";
 import contactImg from "../../../assets/contact_image-IJu_19v_.png";
 
+import aboutUsImage from "../../../assets/about_image.png";
 function Contact() {
   return (
     <>

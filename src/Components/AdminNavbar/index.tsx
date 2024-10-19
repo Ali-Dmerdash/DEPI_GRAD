@@ -1,7 +1,13 @@
 import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../lib/context/auth-context";
 
 const AdminNavbar = () => {
+  const { logout } = useAuth();
+  const handleLogout = async () => {
+    await logout();
+  };
   return (
     <AppBar position="fixed" sx={{ bgcolor: "white", boxShadow: 1, p: 1 }}>
       <Toolbar
@@ -11,22 +17,37 @@ const AdminNavbar = () => {
           alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <FontAwesomeIcon
-            icon={["fas", "staff-snake"]}
-            size="3x"
-            style={{ color: "var(--primary-color)" }}
-          />
-          <Typography
-            color="textSecondary"
-            style={{ color: "var(--secondary-color)", fontSize: "25px" }}
+        <Box>
+          <Link
+            className="mainLogo"
+            to="/home"
+            style={{
+              textDecoration: "none",
+              color: " var(--primary-color)",
+              fontSize: "45px",
+            }}
           >
-            Oasis
-          </Typography>
+            <Typography
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "var(--secondary-color)",
+                fontSize: "25px",
+                fontWeight: "550",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={["fas", "staff-snake"]}
+                style={{ color: "var(--primary-color)", fontSize: "45px" }}
+              />
+              Oasis
+            </Typography>
+          </Link>
         </Box>
 
-        {/* <Button
+        <Button
           variant="contained"
+          onClick={handleLogout}
           sx={{
             bgcolor: "#07456F",
             color: "white",
@@ -41,7 +62,7 @@ const AdminNavbar = () => {
           }}
         >
           Log Out
-        </Button> */}
+        </Button>
       </Toolbar>
     </AppBar>
   );

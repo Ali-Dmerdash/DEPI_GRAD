@@ -70,7 +70,7 @@ function Register() {
           phone: data.phone,
           gender: data.gender,
           birthday: data.birthday,
-          user_id: userRes.data.user.id,
+          user_id: ID,
         })
         .returns();
 
@@ -105,6 +105,7 @@ function Register() {
           {/* Login Form */}
           <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
             <TextFieldElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -116,6 +117,7 @@ function Register() {
               autoFocus
             />
             <TextFieldElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -125,6 +127,7 @@ function Register() {
               name="email"
             />
             <PasswordElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -135,6 +138,7 @@ function Register() {
               id="password"
             />
             <PasswordRepeatElement
+              size="small"
               control={form.control}
               passwordFieldName="password"
               margin="normal"
@@ -146,6 +150,7 @@ function Register() {
               id="repeatpassword"
             />
             <TextFieldElement
+              size="small"
               control={form.control}
               margin="normal"
               required
@@ -183,7 +188,20 @@ function Register() {
               }}
             />
 
-
+            <DateFnsProvider>
+              <DatePickerElement
+                control={form.control}
+                name="birthday"
+                required
+                label="Birthday"
+                inputProps={{
+                  fullWidth: true,
+                  margin: "normal",
+                  id: "birthday",
+                  size: "small",
+                }}
+              />
+            </DateFnsProvider>
 
             <Button
               type="submit"
@@ -213,17 +231,3 @@ function Register() {
 }
 
 export default Register;
-
-{/* <DateFnsProvider>
-<DatePickerElement
-  control={form.control}
-  name="birthday"
-  required
-  label="Birthday"
-  inputProps={{
-    fullWidth: true,
-    margin: "normal",
-    id: "birthday",
-  }}
-/>
-</DateFnsProvider> */}
