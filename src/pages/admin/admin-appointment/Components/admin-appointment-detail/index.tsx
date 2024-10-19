@@ -18,6 +18,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useAuth } from "../../../../../lib/context/auth-context";
+import { supabase } from "../../../../../lib/supabase/clients";
 
 interface Appointment {
   id: string;
@@ -29,22 +30,44 @@ interface Appointment {
 
 const Appointments: React.FC = () => {
   const { isLoading, appointment, session } = useAuth();
-  console.log(appointment);
-  console.log("Appointment from useAuth:", appointment);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
-  // const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
+  const [patientNames, setPatientNames] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [doctorNames, setDoctorNames] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    console.log(isLoading);
-    if (!isLoading) {
-      if (!appointment || !session) {
-        console.log("no appointment of session");
-      }
-    }
-  }, [isLoading, appointment, session]);
+    const fetchNames = async () => {
+      const patientNamePromises =
+        appointment?.map(async (appo: Appointment) => {
+          const patientName = await getPatientName(appo.patient_id);
+          return { [appo.patient_id]: patientName };
+        }) || [];
+
+      const doctorNamePromises =
+        appointment?.map(async (appo: Appointment) => {
+          const doctorName = await getDoctorName(appo.doctor_id);
+          return { [appo.doctor_id]: doctorName };
+        }) || [];
+
+      const patientResults = await Promise.all(patientNamePromises);
+      const doctorResults = await Promise.all(doctorNamePromises);
+
+      setPatientNames((prev) => ({
+        ...prev,
+        ...Object.assign({}, ...patientResults),
+      }));
+      setDoctorNames((prev) => ({
+        ...prev,
+        ...Object.assign({}, ...doctorResults),
+      }));
+    };
+
+    if (appointment) fetchNames();
+  }, [appointment]);
 
   const handleOpen = (appointment: Appointment) => {
     setSelectedAppointment(appointment);
@@ -54,6 +77,30 @@ const Appointments: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  async function getPatientName(patientId: string) {
+    let { data, error } = await supabase
+      .from("patient")
+      .select("full_name")
+      .eq("id", patientId);
+    if (error || !data || data.length === 0) {
+      console.log("Error fetching patient name");
+      return "N/A";
+    }
+    return data[0].full_name;
+  }
+
+  async function getDoctorName(doctorId: string) {
+    let { data, error } = await supabase
+      .from("doctor")
+      .select("name")
+      .eq("id", doctorId);
+    if (error || !data || data.length === 0) {
+      console.log("Error fetching doctor name");
+      return "N/A";
+    }
+    return data[0].name;
+  }
 
   return (
     <>
@@ -72,9 +119,9 @@ const Appointments: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Appointment ID</TableCell>
-                <TableCell>Patient ID</TableCell>
+                <TableCell>Patient Name</TableCell>
                 <TableCell>Date & Time</TableCell>
-                <TableCell>Doctor ID</TableCell>
+                <TableCell>Doctor Name</TableCell>
                 {!isSmallScreen && <TableCell>Fees</TableCell>}
                 {!isSmallScreen && <TableCell>Action</TableCell>}
               </TableRow>
@@ -85,16 +132,20 @@ const Appointments: React.FC = () => {
                   {/* Appointment ID */}
                   <TableCell>{m.id}</TableCell>
 
-                  {/* Patient ID */}
-                  <TableCell>{m.patient_id}</TableCell>
+                  {/* Patient Name */}
+                  <TableCell>
+                    {patientNames[m.patient_id] || "Loading..."}
+                  </TableCell>
 
                   {/* Date & Time */}
                   <TableCell>
                     {new Date(m.created_at).toLocaleString()}
                   </TableCell>
 
-                  {/* Doctor ID */}
-                  <TableCell>{m.doctor_id}</TableCell>
+                  {/* Doctor Name */}
+                  <TableCell>
+                    {doctorNames[m.doctor_id] || "Loading..."}
+                  </TableCell>
 
                   {/* Fees */}
                   {!isSmallScreen && <TableCell>{m.fees}</TableCell>}
@@ -126,7 +177,8 @@ const Appointments: React.FC = () => {
 
                 {/* Patient Info */}
                 <Typography variant="h6" fontWeight="bold">
-                  Patient ID: {selectedAppointment.patient_id}
+                  Patient Name:{" "}
+                  {patientNames[selectedAppointment.patient_id] || "Loading..."}
                 </Typography>
 
                 {/* Date & Time */}
@@ -139,7 +191,8 @@ const Appointments: React.FC = () => {
 
                 {/* Doctor Info */}
                 <Typography variant="h6" fontWeight="bold" mt={2}>
-                  Doctor ID: {selectedAppointment.doctor_id}
+                  Doctor Name:{" "}
+                  {doctorNames[selectedAppointment.doctor_id] || "Loading..."}
                 </Typography>
 
                 {/* Fees */}

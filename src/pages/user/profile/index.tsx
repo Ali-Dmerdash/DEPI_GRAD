@@ -2,8 +2,12 @@ import React from "react";
 import "./profile.css";
 import { Grid2, Typography, Button, Avatar, Box, Divider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAuth } from "../../../lib/context/auth-context";
+import { supabase } from "../../../lib/supabase/clients";
 
 function Profile() {
+  let { patient, session } = useAuth();
+
   function ButtonProfile(props: any) {
     return (
       <Button
@@ -60,7 +64,7 @@ function Profile() {
 
         {/* Name */}
         <Typography variant="h5" sx={{ marginTop: 2, fontWeight: "medium" }}>
-          Edward Vincent
+          {patient?.full_name}
         </Typography>
 
         <Divider
@@ -99,10 +103,10 @@ function Profile() {
             {/* Information Column */}
             <Grid2 size={8}>
               <Typography variant="body1" sx={{ color: "var(--info-primary)" }}>
-                emailexample@gmail.com
+                {session?.user.email}
               </Typography>
               <Typography variant="body1" sx={{ color: "var(--info-primary)" }}>
-                (+20) 11-2345-6789
+                {patient?.phone}
               </Typography>
             </Grid2>
           </Grid2>
@@ -138,13 +142,13 @@ function Profile() {
                 variant="body1"
                 sx={{ color: "var(--info-secondary)" }}
               >
-                Male
+                {patient?.gender}
               </Typography>
               <Typography
                 variant="body1"
                 sx={{ color: "var(--info-secondary)" }}
               >
-                1 January, 2000
+                {patient?.birthday}
               </Typography>
             </Grid2>
           </Grid2>
